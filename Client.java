@@ -5,6 +5,17 @@ public class Client {
 
     public Client(String serverAddress, int port) {
         // Initialize socket connection
+
+        //Takes in address and port and returns a new socket
+        int CPort = port;
+        String CAddress = serverAddress;
+
+        //Socket
+        socket = new Socket(CAddress, CPort);
+
+        //Returns Socket
+        return socket;
+        
     }
 
     public void sendRequest(Object request) {
