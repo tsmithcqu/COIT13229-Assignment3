@@ -1,21 +1,57 @@
-import java.io.IOException;
+package mdhs;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+/**
+ * Server class to handle client connections.
+ * This server listens on a specified port and handles incoming connections
+ * on separate threads to allow concurrent handling of clients.
+ */
 public class Server {
-    public static void main(String[] args) {
-        try {
-            ServerSocket serverSocket = new ServerSocket(5000);
-            ExecutorService executorService = Executors.newFixedThreadPool(10);
+    private int port = 6969;
+    private ServerSocket serverSocket;
 
-            while (true) {
-                Socket socket = serverSocket.accept();
-                executorService.submit(new ClientHandler(socket));
+    /**
+     * Constructor initialises the server on a specified port.
+     */
+    public Server() throws IOException {
+        serverSocket = new ServerSocket(port);
+        System.out.println("MDHS Server is running on port " + port);
+    }
+
+    /**
+     * Listens for incoming client connections and handles them concurrently.
+     */
+    public void listen() {
+        while (true) {
+            try {
+                Socket clientSocket = serverSocket.accept();
+                new ClientHandler(clientSocket).start(); // Handle each client in a new thread
+            } catch (IOException e) {
+                System.out.println("Error accepting client connection: " + e.getMessage());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
+
+    //To do: start the server here.
 }
+
+
+/**
+ * Thread to handle individual client connections.
+ */
+class ClientHandler extends Thread {
+    private Socket clientSocket;
+
+    /**
+     * Constructor assigns the client socket for this handler.
+     */
+    public ClientHandler(Socket socket) {
+        this.clientSocket = socket;
+    }
+}
+
+// To do: Data input and output streams to talk to client. 
+// To do: add comments to each line of code. 
