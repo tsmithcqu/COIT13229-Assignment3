@@ -35,8 +35,17 @@ public class Server {
         }
     }
 
-    //To do: start the server here.
-}
+    /**
+     * Main method to start the server.
+     */
+    public static void main(String[] args) {
+        try {
+            Server server = new Server();
+            server.listen();
+        } catch (IOException e) {
+            System.out.println("Server failed to start: " + e.getMessage());
+        }
+    }
 
 
 /**
@@ -51,7 +60,23 @@ class ClientHandler extends Thread {
     public ClientHandler(Socket socket) {
         this.clientSocket = socket;
     }
+
+    /**
+     * Runs the client handler which reads and writes messages to the client.
+     */
+    @Override
+    public void run() {
+        try {
+            DataInputStream input = new DataInputStream(clientSocket.getInputStream());
+            DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
+            output.writeUTF("You are connected to the server.");
+            String clientMessage = input.readUTF();
+            System.out.println("Message from client: " + clientMessage);
+            clientSocket.close();
+        } catch (IOException e) {
+            System.out.println("Error handling client data: " + e.getMessage());
+        }
+    }
 }
 
-// To do: Data input and output streams to talk to client. 
 // To do: add comments to each line of code. 
