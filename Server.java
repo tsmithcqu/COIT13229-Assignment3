@@ -10,27 +10,27 @@ import java.net.Socket;
  * on separate threads to allow concurrent handling of clients.
  */
 public class Server {
-    private int port = 6969;
-    private ServerSocket serverSocket;
+    private int port = 6969; // Port number where the server will listen for incoming connections from the Client. 
+    private ServerSocket serverSocket; // ServerSocket variable for managing client connections.
 
     /**
      * Constructor initialises the server on a specified port.
      */
     public Server() throws IOException {
-        serverSocket = new ServerSocket(port);
-        System.out.println("MDHS Server is running on port " + port);
+        serverSocket = new ServerSocket(port); // Initialises the ServerSocket on the specified port.
+        System.out.println("MDHS Server is running on port " + port); // Console output indicating server is running. 
     }
 
     /**
      * Listens for incoming client connections and handles them concurrently.
      */
     public void listen() {
-        while (true) {
+        while (true) { // Infinite loop to continuously listen for client connections. 
             try {
-                Socket clientSocket = serverSocket.accept();
+                Socket clientSocket = serverSocket.accept(); // Accept an incoming client connection. 
                 new ClientHandler(clientSocket).start(); // Handle each client in a new thread
             } catch (IOException e) {
-                System.out.println("Error accepting client connection: " + e.getMessage());
+                System.out.println("Error accepting client connection: " + e.getMessage()); // Displays error message to the console if connection fails
             }
         }
     }
@@ -40,10 +40,10 @@ public class Server {
      */
     public static void main(String[] args) {
         try {
-            Server server = new Server();
-            server.listen();
+            Server server = new Server(); // Create a new Server object. 
+            server.listen(); // Call listen method to start listening for clients. 
         } catch (IOException e) {
-            System.out.println("Server failed to start: " + e.getMessage());
+            System.out.println("Server failed to start: " + e.getMessage()); // Error message displayed to the console if the server fails to start. 
         }
     }
 
@@ -52,13 +52,13 @@ public class Server {
  * Thread to handle individual client connections.
  */
 class ClientHandler extends Thread {
-    private Socket clientSocket;
+    private Socket clientSocket; // Socket for communication with the connected client. 
 
     /**
      * Constructor assigns the client socket for this handler.
      */
     public ClientHandler(Socket socket) {
-        this.clientSocket = socket;
+        this.clientSocket = socket; // Assign the socket from the parameter to the clientSocket. 
     }
 
     /**
@@ -67,16 +67,15 @@ class ClientHandler extends Thread {
     @Override
     public void run() {
         try {
-            DataInputStream input = new DataInputStream(clientSocket.getInputStream());
-            DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
-            output.writeUTF("You are connected to the server.");
-            String clientMessage = input.readUTF();
-            System.out.println("Message from client: " + clientMessage);
-            clientSocket.close();
+            DataInputStream input = new DataInputStream(clientSocket.getInputStream()); // Stream to read data from the client. 
+            DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream()); // Stream to send data to the client. 
+            output.writeUTF("You are connected to the server."); // Send a message to the client. 
+            String clientMessage = input.readUTF(); // Read a message sent by the client. 
+            System.out.println("Message from client: " + clientMessage); // Print the message from the client. 
+            clientSocket.close(); // Close the connection with the client. 
         } catch (IOException e) {
-            System.out.println("Error handling client data: " + e.getMessage());
+            System.out.println("Error handling client data: " + e.getMessage()); // Error message displayed to the console if there is an issue with client data handling. 
         }
     }
 }
 
-// To do: add comments to each line of code. 
