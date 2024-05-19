@@ -1,46 +1,40 @@
-package mhds;
+package mdhs;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.io.*;
+import java.net.Socket;
+import java.sql.*;
 
 /**
- * RESTful web service class for managing order data.
+ * OrderService class to handle order data management.
+ * Manages the creation and storage of client orders in the database.
  */
-@Path("orderService")
 public class OrderService {
-    private DatabaseAccess dbAccess;
+
+    private Socket clientSocket;
+    private Connection connection;
 
     /**
-     * Constructor that accepts a database access object for database operations.
-     * @param dbAccess An instance of DatabaseAccess for database interactions.
+     * Constructor establishes a connection to the server and the database.
      */
-    public OrderService(DatabaseAccess dbAccess) {
-        this.dbAccess = dbAccess;
+    public OrderService() throws IOException, SQLException {
+        this.clientSocket = new Socket("localhost", 6969);
+        this.connection = DriverManager.getConnection("jdbc:mysql://localhost/mdhs", "user", "password");
     }
 
     /**
-     * Endpoint to create and save an order in the database.
-     * This endpoint expects a POST request with order details as application/json.
-     * @param orderDetails Details of the order to be saved, expected in JSON format.
-     * @return Response indicating success or failure.
+     * Processes and saves order data received from the client.
      */
-    @POST
-    @Path("/createOrder")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createOrder(String orderDetails) {
+    public void processAndSaveOrder(String productID, int quantity) {
         try {
-            String sql = "INSERT INTO orders (details) VALUES ('" + orderDetails + "')";
-            dbAccess.executeUpdate(sql);
-            return Response.ok("Order created and saved successfully: " + orderDetails).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Failed to create order: " + e.getMessage()).build();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO orders (product_id, quantity) VALUES (?, ?)");
+            ps.setString(1, productID);
+            ps.setInt(2, quantity);
+            ps.executeUpdate();
+            ps.close();
+
+            System.out.println("Order processed and saved: Product ID: " + productID + " Quantity: " + quantity);
+        } catch (SQLException e) {
+            System.out.println("Error processing order data: " + e.getMessage());
         }
     }
 }
