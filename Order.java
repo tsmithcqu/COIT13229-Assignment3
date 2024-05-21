@@ -36,7 +36,7 @@ public class Order {
     private void calculateTotalPrice() {
         totalPrice = 0;
         for (Product product : products) {
-            totalPrice += product.getUnitPrice() * product.getQuantity();
+            totalPrice += product.getPrice() * product.getQuantity();
         }
     }
 
