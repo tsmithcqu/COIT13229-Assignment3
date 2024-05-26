@@ -67,16 +67,28 @@ class ClientHandler extends Thread {
      */
     @Override
     public void run() {
-        try {
-            DataInputStream input = new DataInputStream(clientSocket.getInputStream()); // Stream to read data from the client. 
-            DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream()); // Stream to send data to the client. 
-            output.writeUTF("You are connected to the server."); // Send a message to the client. 
-            String clientMessage = input.readUTF(); // Read a message sent by the client. 
-            System.out.println("Message from client: " + clientMessage); // Print the message from the client. 
-            clientSocket.close(); // Close the connection with the client. 
-        } catch (IOException e) {
-            System.out.println("Error handling client data: " + e.getMessage()); // Error message displayed to the console if there is an issue with client data handling. 
+            try (ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());  // Receive data from the client. 
+                 ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream())) { // Send data back to the client. 
+
+                // Handle delivery Schedule.
+                // Handle new customer.
+                // Handle any other interactions to the database here. 
+                
+                output.writeObject(response);  // Send the response back to the client
+
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error handling client data: " + e.getMessage());
+            } finally {
+                try {
+                    clientSocket.close();  // Ensure the client socket is closed after processing. 
+                } catch (IOException e) {
+                    System.out.println("Error closing client socket: " + e.getMessage());
+                }
+            }
         }
-    }
+
+        // Private method to handle delivery schedule. 
+        // Private method to handle new customer. 
+        // Private method for any other database interactions here. 
 }
 
