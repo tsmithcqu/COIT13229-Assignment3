@@ -131,9 +131,23 @@ public class DatabaseAccess {
     private PreparedStatement selectDetailsByPostcode = null;
     private PreparedStatement selectDetailsByDay = null;
 
+    // Add a schedule (admin function). 
+    private String addSchedule(DeliverySchedule schedule) throws SQLException {
+    // Need to add prepared statements to interact with the database. 
+        return "Schedule added successfully";
+    }
 
+    // Update a schedule (admin functon). 
+    private String updateSchedule(DeliverySchedule schedule) throws SQLException {
+        // Need to add prepared statements to interact with the database. 
+        return "Schedule updated successfully";
+    }
 
-
+    // Delete a schedule (admin function). 
+    private String deleteSchedule(DeliverySchedule schedule) throws SQLException {
+        // Need to add prepared statements to interact with the database. 
+        return "Schedule deleted successfully";
+    }
 
     //ADD METHODS TO GET DETAILS BY POSTCODE
     //ADD METHODS TO GET DETAILS BY DAY
