@@ -18,6 +18,11 @@ public class Client {
 
     // Method to handle deleting a delivery schedule
 
+    // BELOW IS AN EXAMPLE. Will need to be modified as needed. 
+    public void createDeliverySchedule(DeliverySchedule schedule) {
+        new Thread(() -> handleOperation(schedule, "createDeliverySchedule")).start();
+    }
+
     // ADD MORE AS NEEDED.
     // For each of them you need to call the 'handleOperation' method. 
 

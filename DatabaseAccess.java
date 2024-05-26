@@ -25,6 +25,10 @@ public class DatabaseAccess {
     //Product Statements
     private PreparedStatement selectProductByName = null;
 
+    //ADMIN Schedule Statements
+    private PreparedStatement insertNewSchedule = null;
+    private PreparedStatement updateExistingSchedule = null;
+
 
     //Prepares database statements
     public DatabaseAccess() {
@@ -60,6 +64,17 @@ public class DatabaseAccess {
             //create new product
             selectProductByName = connection.prepareStatement(
                     "SELECT * FROM products where name =?");
+
+            //ADMIN Schedule
+            insertNewSchedule = connection.prepareStatement(
+                    "INSERT INTO delivery_schedules"
+                            + "(postcode, deliveryDay, deliveryCost)"
+                            + "VALUES (?, ?, ?)");
+
+            updateExistingSchedule = connection.prepareStatement(
+                    "UPDATE delivery_schedules SET postcode = ?, delivery_cost = ? WHERE delivery_day = ? "
+            );
+
 
         }//end of try
         catch (SQLException sqlException) {
@@ -200,6 +215,44 @@ public class DatabaseAccess {
         }//end - finally
         return productNameList;
     }
+
+
+    //ADMIN FUNCTIONS
+    // Add a schedule (admin function).
+    public int addAdminSchedule(String postcode, String deliveryDay, Double deliveryCost)
+    {
+        int result = 0;
+        try {
+            insertNewSchedule.setString(1, postcode);
+            insertNewSchedule.setString(2, deliveryDay);
+            insertNewSchedule.setDouble(3, deliveryCost);
+
+            result = insertNewSchedule.executeUpdate();
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return result;
+    }
+
+    // Update a schedule (admin functon).
+    private int updateAdminSchedule(String postcode, String deliveryDay, Double deliveryCost)
+    {
+        int result = 0;
+        try {
+            updateExistingSchedule.setString(1, postcode);
+            updateExistingSchedule.setString(2, deliveryDay);
+            updateExistingSchedule.setDouble(3, deliveryCost);
+
+            result = updateExistingSchedule.executeUpdate();
+        }
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return result;
+    }
+
+    // TODO add Delete a schedule (admin function).
 
     public void close()
     {
