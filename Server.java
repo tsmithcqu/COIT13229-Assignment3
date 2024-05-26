@@ -47,6 +47,7 @@ public class Server {
         }
     }
 
+}
 
 /**
  * Thread to handle individual client connections.
