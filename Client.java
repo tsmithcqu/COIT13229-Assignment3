@@ -1,33 +1,27 @@
+package mhds;
+
+import java.io.*;
 import java.net.Socket;
 
 public class Client {
-    private Socket socket;
+    private static final String SERVER_ADDRESS = "localhost";  // Server IP address
+    private static final int SERVER_PORT = 6969;  // Server port number
 
-    public Client(String serverAddress, int port) {
-        // Initialize socket connection
-
-        //Takes in address and port and returns a new socket
-        int CPort = port;
-        String CAddress = serverAddress;
-
-        //Socket
-        socket = new Socket(CAddress, CPort);
-
-        //Returns Socket
-        return socket;
-        
+    public Client() {
     }
 
-    public void sendRequest(Object request) {
-        // Send requests to the server
-    }
+    // Method to handle creating a customer
 
-    public Object receiveResponse() {
-        // Receive responses from the server
-        return null;
-    }
+    // Method to handle deleting a customer
 
-    public void encryptPassword(String password) {
-        // Encrypt the password using the server's public key
-    }
+    // Method to handle creating a delivery schedule
+
+    // Method to handle deleting a delivery schedule
+
+    // ADD MORE AS NEEDED.
+
+
+
+    // Need to create input and output streams to send data to server, and recieve back. Similar to Assignment 2
+
 }
