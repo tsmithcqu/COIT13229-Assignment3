@@ -10,19 +10,16 @@ public class DatabaseAccess {
     String USERNAME = "root";
     String PASSWORD = "password";
 
+
+
+
+    
+    /** 
+    * For Customer related database entries. 
+    */
+
     //Customer Statements
     private PreparedStatement insertNewCustomer = null;
-
-    //Delivery Statements
-    private PreparedStatement selectDetailsByPostcode = null;
-    private PreparedStatement selectDetailsByDay = null;
-
-    //Order Statements
-    private PreparedStatement insertNewOrder = null;
-
-    //Product Statements
-    private PreparedStatement selectProductByName = null;
-
 
     //Prepares database statements
     public DatabaseAccess() {
@@ -87,7 +84,23 @@ public class DatabaseAccess {
     }
 
 
-    //Inserts order to database
+
+    
+    /** 
+    * For Product related database entries. 
+    */
+
+    //Product Statements
+    private PreparedStatement selectProductByName = null;
+
+
+
+    
+    /** 
+    * For Order related database entries. 
+    */
+
+//Inserts order to database
     public int processAndSaveOrder(String productID, int quantity)
     {
         int result = 0;
@@ -103,6 +116,24 @@ public class DatabaseAccess {
         }
         return result;
     }
+
+
+    
+    //Order Statements
+    private PreparedStatement insertNewOrder = null;
+
+
+    /** 
+    * For Dellivery related database entries. 
+    */
+
+    //Delivery Statements
+    private PreparedStatement selectDetailsByPostcode = null;
+    private PreparedStatement selectDetailsByDay = null;
+
+
+
+
 
     //ADD METHODS TO GET DETAILS BY POSTCODE
     //ADD METHODS TO GET DETAILS BY DAY
