@@ -1,6 +1,8 @@
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import static java.sql.DriverManager.getConnection;
 
@@ -104,9 +106,100 @@ public class DatabaseAccess {
         return result;
     }
 
-    //ADD METHODS TO GET DETAILS BY POSTCODE
+    //METHODS TO GET DETAILS BY POSTCODE
+    public List<mdhs.DeliverySchedule> getDetailsByPostcode(String postcode){
+        List<mdhs.DeliverySchedule> postcodeList = null;
+        ResultSet resultSet = null;
+
+        try{
+            selectDetailsByPostcode.setString(1, postcode);
+            resultSet = selectDetailsByPostcode.executeQuery();
+            postcodeList = new ArrayList<mdhs.DeliverySchedule>();
+            while (resultSet.next()){
+                postcodeList.add(new mdhs.DeliverySchedule(
+                        resultSet.getString("postcode"),
+                        resultSet.getString("deliveryDay"),
+                        resultSet.getDouble("deliveryCost")));
+            }//end - while
+        }//end - try
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }// end - catch
+        finally {
+            try {
+                resultSet.close();
+            }//end - try
+            catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }//end - finally
+        return postcodeList;
+    }
+
+
     //ADD METHODS TO GET DETAILS BY DAY
+    public List<mdhs.DeliverySchedule> getDetailsByDay(String deliveryDay){
+        List<mdhs.DeliverySchedule> deliveryDayList = null;
+        ResultSet resultSet = null;
+
+        try{
+            selectDetailsByDay.setString(1, deliveryDay);
+            resultSet = selectDetailsByDay.executeQuery();
+            deliveryDayList = new ArrayList<mdhs.DeliverySchedule>();
+            while (resultSet.next()){
+                deliveryDayList.add(new mdhs.DeliverySchedule(
+                        resultSet.getString("postcode"),
+                        resultSet.getString("deliveryDay"),
+                        resultSet.getDouble("deliveryCost")));
+            }//end - while
+        }//end - try
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }// end - catch
+        finally {
+            try {
+                resultSet.close();
+            }//end - try
+            catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }//end - finally
+        return deliveryDayList;
+    }
+
+
     //ADD METHODS TO GET PRODUCTS BY NAME
+    public List<mdhs.Product> getProductByName(String name){
+        List<mdhs.Product> productNameList = null;
+        ResultSet resultSet = null;
+
+        try{
+            selectProductByName.setString(1, name);
+            resultSet = selectProductByName.executeQuery();
+            productNameList = new ArrayList<mdhs.Product>();
+            while (resultSet.next()){
+                productNameList.add(new mdhs.Product(
+                        resultSet.getString("name"),
+                        resultSet.getString("unit"),
+                        resultSet.getInt("quantity"),
+                        resultSet.getDouble("price"),
+                        resultSet.getString("ingredients")));
+            }//end - while
+
+        }//end - try
+        catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }// end - catch
+        finally {
+            try {
+                resultSet.close();
+            }//end - try
+            catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }//end - finally
+        return productNameList;
+    }
 
     public void close()
     {

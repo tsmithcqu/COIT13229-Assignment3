@@ -1,3 +1,5 @@
+package mdhs;
+
 public class DeliverySchedule {
     private String postcode;
     private String deliveryDay;
