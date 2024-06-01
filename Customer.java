@@ -1,33 +1,29 @@
+package mhds;
+
+import java.io.Serializable;
+
 public class Customer {
-    private String fullName;
-    private String phoneNumber;
+    private String name;
     private String email;
     private String password;
     private String address;
+    private String phoneNumber;
 
-    public Customer(String fullName, String phoneNumber, String email, String password, String address) {
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
-        this.address = address;
+    public Customer(String name, String email, String password, String address, String phoneNumber) {
+        this.fullName = name;
+        this.phoneNumber = email;
+        this.email = password;
+        this.password = address;
+        this.address = phoneNumber;
     }
 
     // Getters and setters
-    public String getFullName() {
-        return fullName;
+    public String name() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -54,14 +50,11 @@ public class Customer {
         this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "fullName='" + fullName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
