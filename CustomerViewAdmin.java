@@ -21,7 +21,34 @@ public class CustomerViewAdmin extends JFrame {
     }
 
     private void createForm() {
-      // To do
+        setLayout(new GridLayout(6, 2));  // Set the layout of the JFrame to a grid layout with 6 rows and 2 columns
+
+        // Add name label and text field to the form
+        add(new JLabel("Name:"));
+        nameField = new JTextField(20);
+        add(nameField);
+
+        // Add email label and text field to the form
+        add(new JLabel("Email:"));
+        emailField = new JTextField(20);
+        add(emailField);
+
+        // Add password label and text field to the form
+        add(new JLabel("Password:"));
+        passwordField = new JTextField(20);
+        add(passwordField);
+
+        // Add address label and text field to the form
+        add(new JLabel("Address:"));
+        addressField = new JTextField(20);
+        add(addressField);
+
+        // Add phone number label and text field to the form
+        add(new JLabel("Phone Number:"));
+        phoneNumberField = new JTextField(20);
+        add(phoneNumberField);
+
+// SUMBIT BUTTON HERE
     }
 
     private void submitCustomerData() {
