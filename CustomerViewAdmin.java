@@ -57,3 +57,12 @@ public class CustomerViewAdmin extends JFrame {
     private void submitCustomerData() {
       // To Do
     }
+    
+    // Main method to run the GUI
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            CustomerViewAdmin frame = new CustomerViewAdmin(); // Create an instance of the GUI frame
+            frame.setVisible(true); // Make the frame visible
+        });
+    }
+}
