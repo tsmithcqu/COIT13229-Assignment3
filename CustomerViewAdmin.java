@@ -48,7 +48,10 @@ public class CustomerViewAdmin extends JFrame {
         phoneNumberField = new JTextField(20);
         add(phoneNumberField);
 
-// SUMBIT BUTTON HERE
+        // Add button to submit the form data
+        addButton = new JButton("Add Customer");
+        addButton.addActionListener(e -> submitCustomerData()); // Set action listener to handle button click
+        add(addButton);
     }
 
     private void submitCustomerData() {
