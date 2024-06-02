@@ -54,8 +54,20 @@ public class CustomerViewAdmin extends JFrame {
         add(addButton);
     }
 
+    // Method to handle the button click event for submitting customer data
     private void submitCustomerData() {
-      // To Do
+        // Retrieve text from each text field
+        String name = nameField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        String address = addressField.getText();
+        String phoneNumber = phoneNumberField.getText();
+
+        // Create a new Customer object with the data from the form
+        Customer customer = new Customer(name, email, password, address, phoneNumber);
+
+        // Use the client to send the customer data for registration
+        client.registerCustomer(customer);
     }
     
     // Main method to run the GUI
