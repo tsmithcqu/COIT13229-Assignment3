@@ -60,9 +60,18 @@ class ClientHandler extends Thread {
             try (ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());  // Receive data from the client. 
                  ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream())) { // Send data back to the client. 
 
-                // Handle delivery Schedule.
-                // Handle new customer.
-                // Handle any other interactions to the database here. 
+                String operationType = (String) input.readObject();  // Read and store the type of operation requested by the client.
+                String response = "Operation failed"; // Response if operation does not complete successfully.
+
+                switch (operationType) {
+                    case "registerCustomer" -> {
+                        Customer customer = (Customer) input.readObject(); // Read the Customer object from the client.
+                        response = handleCustomerRegistration(customer); // Handle customer registration and get the response.
+                    }
+                    case "addSchedule" -> {
+                        // to do
+                    }
+                }
                 
                 output.writeObject(response);  // Send the response back to the client
 
