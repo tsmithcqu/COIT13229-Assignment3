@@ -41,13 +41,15 @@ public class Server {
  * Thread to handle individual client connections.
  */
 class ClientHandler extends Thread {
-    private Socket clientSocket; // Socket for communication with the connected client. 
+    private final Socket clientSocket; // Socket to manage the connection to the client.
+    private final DatabaseAccess dbAccess; // Reference to DatabaseAccess to perform database operations.
 
     /**
      * Constructor assigns the client socket for this handler.
      */
     public ClientHandler(Socket socket) {
-        this.clientSocket = socket; // Assign the socket from the parameter to the clientSocket. 
+        this.clientSocket = socket; // Initialise the client socket.
+        this.dbAccess = dbAccess;  // Initialise DatabaseAccess for handling database operations.
     }
 
     /**
