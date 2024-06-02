@@ -23,6 +23,10 @@ public class Client {
         new Thread(() -> handleOperation(schedule, "createDeliverySchedule")).start();
     }
 
+    public void registerCustomer(Customer customer) {
+    new Thread(() -> handleOperation(customer, "createCustomer")).start();
+    }
+
     // ADD MORE AS NEEDED.
     // For each of them you need to call the 'handleOperation' method. 
 
