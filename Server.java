@@ -22,6 +22,22 @@ public class Server {
      * Start the server and listen for incoming connections from the Client.
      */
     public void startServer() {
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) { // Open a server socket on the specified port.
+
+            while (true) { // Infinite loop to continuously accept new client connections.
+                try {
+                    Socket clientSocket = serverSocket.accept(); // Accept a client connection.
+                    
+                    /**
+                     * Start a new thread to handle the client, ensuring each client is handled concurrently.
+                     * This method of thread handling was pulled from Tyson's Assignment 1 assignment. 
+                     * The method of having ClientHandler extend Thread was not functioning correctly, and was dropping the connection between Client and Server.
+                     * Gen AI originally provided assistance with this in Assignment 1. 
+                     */
+                    new Thread(() -> handleClient(clientSocket)).start();
+                } 
+            }
+        }
     }
         
     /**
