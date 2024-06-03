@@ -30,6 +30,8 @@ public class Client {
          return sendRequest("VIEW_CUSTOMERS", null); // Send request to view all customers.
      }
 
+     // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
+
      // ADD MORE FUNCTIONS HERE.
      
          /**
