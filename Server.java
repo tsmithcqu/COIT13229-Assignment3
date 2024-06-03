@@ -58,20 +58,6 @@ public class Server {
         System.out.println("MDHS Server is running on port " + port); // Console output indicating server is running. 
     }
 
-    /**
-     * Listens for incoming client connections and handles them concurrently.
-     */
-    public void listen() {
-        while (true) { // Infinite loop to continuously listen for client connections. 
-            try {
-                Socket clientSocket = serverSocket.accept(); // Accept an incoming client connection. 
-                new ClientHandler(clientSocket).start(); // Handle each client in a new thread
-            } catch (IOException e) {
-                System.out.println("Error accepting client connection: " + e.getMessage()); // Displays error message to the console if connection fails
-            }
-        }
-    }
-
 /**
  * Thread to handle individual client connections.
  */
