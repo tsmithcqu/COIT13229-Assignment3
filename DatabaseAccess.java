@@ -52,6 +52,23 @@ public class DatabaseAccess implements AutoCloseable {
         }
     }
 
+    /**
+     * Method to retrieve all customers from the database.
+     */
+    public List<Customer> getAllCustomers() throws SQLException {
+        String sql = "SELECT * FROM Users"; // SQL query to select all users from the Users table.
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+                // to do - array to store customers
+
+                // rs statements here
+                
+            }
+            return customers; // Return the list of customers.
+        }
+    }
+
     // Add more database unteractions here. Such as viewing etc. 
 
     /**
