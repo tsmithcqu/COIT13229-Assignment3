@@ -34,14 +34,18 @@ public class Client {
              ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());  // Create an ObjectOutputStream to send data to the server.
              ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {  // Create an ObjectInputStream to receive data from the server.
 
-            out.writeObject(customer);  // Serialise and send the Customer object to the server.
+            out.writeObject(action);  // Serialise and send the Customer object to the server.
+            if (data != null) { // Ensures that only valid, non-null data is serialised and sent to the server.
+                out.writeObject(data);  // Serialie and send the data object to the server, if any.
+            }
             out.flush();  // Flush the output stream to ensure all data is sent.
              
             T response = (T) in.readObject(); // Wait for a response from the server and read it.
             return response; // Return the response received from the server.
 
         } catch (IOException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Error communicating with the server: " + e.getMessage(), "Connection Error", JOptionPane.ERROR_MESSAGE); // Show an error dialog if there is a problem communicating with the server
+            JOptionPane.showMessageDialog(null, "Error communicating with the server: " + e.getMessage(), "Connection Error", JOptionPane.ERROR_MESSAGE); // Show an error dialog if there is a problem communicating with the server.
+            return null; // Return null in case of an error.
         }
     }
 }
