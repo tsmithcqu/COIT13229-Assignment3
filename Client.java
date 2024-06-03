@@ -23,6 +23,13 @@ public class Client {
           sendRequest("ADD_CUSTOMER", customer); // Send request to add a customer.
      }
 
+     /**
+     * Method to fetch all registered customers from the database.
+     */
+     public List<Customer> fetchAllCustomers() {
+         return sendRequest("VIEW_CUSTOMERS", null); // Send request to view all customers.
+     }
+
      // ADD MORE FUNCTIONS HERE.
      
          /**
