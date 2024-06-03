@@ -49,13 +49,24 @@ public class Server {
         }
     }
         
-/**
- * Thread to handle individual client connections.
- */
-class ClientHandler extends Thread {
-    private final Socket clientSocket; // Socket to manage the connection to the client.
-    private final DatabaseAccess dbAccess; // Reference to DatabaseAccess to perform database operations.
+    /**
+     * Method to handle client requests in a separate thread. 
+     */
+private void handleClient(Socket clientSocket) {
+    try (
+            ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream()); // Open an input stream to receive data from the client. 
+            ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream()) // Open an output stream to send data to the client.
+        )
 
+            /**
+            * This is created only for registering customers. 
+            * Modifications need to occur to perform other functions like working with delivery schedules, etc. 
+            */
+            Customer customer = (Customer) in.readObject(); // Read customer object from the client.
+            System.out.println("Received customer data: " + customer); // Log the received customer data.
+
+// To do: add functionality for processing the customer data in the database. 
+    
     /**
      * Constructor assigns the client socket for this handler.
      */
