@@ -3,17 +3,27 @@ package mdhs;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 
-/**
- * Server class to handle client connections.
- * This server listens on a specified port and handles incoming connections
- * on separate threads to allow concurrent handling of clients.
- */
 public class Server {
-    private final int port = 6969; // Port number where the server will listen for incoming connections from the Client. 
-    private final ServerSocket serverSocket; // ServerSocket variable for managing client connections.
-    private final DatabaseAccess dbAccess;  // DatabaseAccess instance for database operations.
+    private static final int PORT = 6969; // Port number where the server will listen for incoming connections from the Client.    
+    
+    /**
+     * Main method to start the server. 
+     * Gen AI provided general guidance on this method of starting the server. 
+     * The method used in Tyson's Assignment 2 was originally used, however during testing, it would have trouble starting in different versions of Netbeans and different computing hardware. 
+     * Gen AI provided guidance that this method could be used, and it appeared to work across different Netbeans versions and computers. 
+     */
+    public static void main(String[] args) {
+        new Server().startServer(); // Create a server instance and start it. 
+    }
 
+    /**
+     * Start the server and listen for incoming connections from the Client.
+     */
+    public void startServer() {
+    }
+        
     /**
      * Constructor initialises the server on a specified port.
      */
@@ -92,16 +102,5 @@ class ClientHandler extends Thread {
         }
     }
 
-    /**
-     * Main method to start the server.
-     */
-    public static void main(String[] args) {
-        try {
-            Server server = new Server(); // Create a new Server object. 
-            server.listen(); // Call listen method to start listening for clients. 
-        } catch (IOException e) {
-            System.out.println("Server failed to start: " + e.getMessage()); // Error message displayed to the console if the server fails to start. 
-        }
-    }
 }
 
