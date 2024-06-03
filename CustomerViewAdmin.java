@@ -102,7 +102,19 @@ public class CustomerViewAdmin extends JFrame {
      * Method to load customer data from the server and populate the table.
      */
     private void loadCustomerData() {
-// to do. need to rework the code above. 
+        java.util.List<Customer> customers = client.fetchAllCustomers(); // Fetch all customers.
+        String[] columnNames = {"Name", "Email", "Password", "Address", "Phone Number"}; // Define column names for the table.
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0); // Create a new table model.
+
+        for (Customer customer : customers) {
+            Object[] rowData = {
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPassword(),
+                customer.getAddress(),
+                customer.getPhoneNumber()
+            };
+        }
     }
     
     /**
