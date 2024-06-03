@@ -77,6 +77,8 @@ public class DatabaseAccess implements AutoCloseable {
         }
     }
 
+    // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
+    
     // Add more database unteractions here. Such as viewing etc. 
 
     /**
