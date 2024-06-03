@@ -28,57 +28,58 @@ public class CustomerViewAdmin extends JFrame {
      /**
      * Initialises the components and layouts of the GUI.
      */
-    private void createForm() {
-        setLayout(new GridLayout(6, 2));  // Set the layout of the JFrame to a grid layout with 6 rows and 2 columns
+    private void initializeComponents() {
+        setLayout(new GridLayout(6, 2, 5, 5)); // Set layout to grid with 6 rows, 2 columns, and padding.
 
         // Add name label and text field to the form
-        add(new JLabel("Name:"));
-        nameField = new JTextField(20);
+        add(new JLabel("Name:")); // Label for name.
+        nameField = new JTextField(20); // Text field for entering name.
         add(nameField);
 
         // Add email label and text field to the form
-        add(new JLabel("Email:"));
-        emailField = new JTextField(20);
+        add(new JLabel("Email:")); // Label for email.
+        emailField = new JTextField(20); // Text field for entering email.
         add(emailField);
 
         // Add password label and text field to the form
-        add(new JLabel("Password:"));
-        passwordField = new JTextField(20);
+        add(new JLabel("Password:")); // Label for password.
+        passwordField = new JTextField(20); // Text field for entering password.
         add(passwordField);
 
         // Add address label and text field to the form
-        add(new JLabel("Address:"));
-        addressField = new JTextField(20);
+        add(new JLabel("Address:")); // Label for address.
+        addressField = new JTextField(20); // Text field for entering address.
         add(addressField);
 
         // Add phone number label and text field to the form
-        add(new JLabel("Phone Number:"));
-        phoneNumberField = new JTextField(20);
+        add(new JLabel("Phone Number:")); // Label for phone number.
+        phoneNumberField = new JTextField(20); // Text field for entering phone number.
         add(phoneNumberField);
 
-        // Add button to submit the form data
-        addButton = new JButton("Add Customer");
-        addButton.addActionListener(e -> submitCustomerData()); // Set action listener to handle button click
-        add(addButton);
+        // Submit button for submitting the customer details.
+        submitButton = new JButton("Submit"); // Button to submit the form.
+        submitButton.addActionListener(e -> submitCustomerData()); // Set action listener to handle button click.
+        add(submitButton);
     }
 
-    // Method to handle the button click event for submitting customer data
+    /**
+    * Gathers data from the form fields and sends it to the server.
+    */
     private void submitCustomerData() {
-        // Retrieve text from each text field
+        // Retrieve text from each text fields.
         String name = nameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
         String address = addressField.getText();
         String phoneNumber = phoneNumberField.getText();
 
-        // Create a new Customer object with the data from the form
-        Customer customer = new Customer(name, email, password, address, phoneNumber);
-
-        // Use the client to send the customer data for registration
-        client.registerCustomer(customer);
+        Customer customer = new Customer(name, email, password, address, phoneNumber); // Create a Customer object with the data
+        new Client().sendCustomerData(customer); // Send customer data to the server using a Client instance.
     }
     
-    // Main method to run the GUI
+    /**
+     * Main method to create and show the GUI.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             CustomerViewAdmin frame = new CustomerViewAdmin(); // Create an instance of the GUI frame
