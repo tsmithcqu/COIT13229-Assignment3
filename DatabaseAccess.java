@@ -1,17 +1,42 @@
+package mhds;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+/**
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 
+
 import static java.sql.DriverManager.getConnection;
+*/
 
-public class DatabaseAccess {
-    private static Connection connection;
-    String URL = "jdbc:mysql://localhost:3306/mhds";
-    String USERNAME = "root";
-    String PASSWORD = "password";
+/**
+ * Class to handle database operations, implements AutoCloseable to ensure resources are freed properly.
+ * Gen AI provided guidance on implementing AutoCloseable, as system resources were not being freed previously. 
+ */
+public class DatabaseAccess implements AutoCloseable {
+    private Connection connection; // Connection object to manage the database connection.
+    private static final String URL = "jdbc:mysql://localhost:3306/mhds"; // Database URL. 
+    private static final String USERNAME = "root"; // Database username. 
+    private static final String PASSWORD = "Blu3b3rry"; // Database password (Tyson's database). 
 
+    /**
+     * Constructor to initialise and open a database connection.
+     */
+    public DatabaseAccess() throws SQLException {
+        this.connection = DriverManager.getConnection(URL, USERNAME, PASSWORD); // Attempt to establish a database connection using provided credentials.
+    }
+
+    /**
+
+The below needs to be completely overhauled. Currently not functioning. 
+    
     //Customer Statements
     private PreparedStatement insertNewCustomer = null;
 
@@ -251,6 +276,8 @@ public class DatabaseAccess {
         }
         return result;
     }
+
+    */
 
     // TODO add Delete a schedule (admin function).
 
