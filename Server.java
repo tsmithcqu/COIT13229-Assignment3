@@ -56,7 +56,7 @@ private void handleClient(Socket clientSocket) {
     try (
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream()); // Open an input stream to receive data from the client. 
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream()) // Open an output stream to send data to the client.
-        )
+        )   {
 
             /**
             * This is created only for registering customers. 
@@ -65,7 +65,18 @@ private void handleClient(Socket clientSocket) {
             Customer customer = (Customer) in.readObject(); // Read customer object from the client.
             System.out.println("Received customer data: " + customer); // Log the received customer data.
 
-// To do: add functionality for processing the customer data in the database. 
+            /**
+             * Process the customer data using the DatabaseAccess instance. 
+             * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
+             */
+            try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                boolean success = dbAccess.addCustomer(customer); // Attempt to add customer to the database.
+                out.writeObject(response); // Send the response back to the client to be displayed by the GUI. 
+            } 
+            out.flush(); // Flush the output stream to ensure all data is sent
+
+        }
+
     
     /**
      * Constructor assigns the client socket for this handler.
