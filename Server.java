@@ -63,6 +63,7 @@ private void handleClient(Socket clientSocket) {
             /**
              * Process the customer data using the DatabaseAccess instance. 
              * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
+             * Gen AI provided general guidance on using switch-case, rather than if-else. 
              */   
             switch (action) {
                 case "ADD_CUSTOMER": // Case to handle adding a new customer.
