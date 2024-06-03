@@ -81,10 +81,14 @@ private void handleClient(Socket clientSocket) {
                 break;
 
                 case "VIEW_CUSTOMERS": // Case to handle viewing all customers.
-                    try {
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         List<Customer> customers = dbAccess.getAllCustomers(); // Retrieve all customers from the database.
                         out.writeObject(customers); // Send the list of customers back to the client.
-                    } 
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
+                        System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error.
+                        e.printStackTrace();
+                    }
                     break; 
                     
             // Add more switch-case here for different functions of the server application (view users, etc). 
