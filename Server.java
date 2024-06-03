@@ -81,26 +81,5 @@ private void handleClient(Socket clientSocket) {
             out.flush(); // Flush the output stream to ensure all data is sent
 
         }
-
-    
-    /**
-     * Constructor assigns the client socket for this handler.
-     */
-    public ClientHandler(Socket socket) {
-        this.clientSocket = socket; // Initialise the client socket.
-        this.dbAccess = dbAccess;  // Initialise DatabaseAccess for handling database operations.
     }
-
-    /**
-     * Runs the client handler which reads and writes messages to the client.
-     */
-    
-
-        private String handleCustomerRegistration(Customer customer) {
-        int result = dbAccess.addCustomer(customer.getName(), customer.getEmail(), customer.getPassword(), customer.getAddress(), customer.getPhoneNumber());
-        return result > 0 ? "Customer registration successful" : "Failed to register customer"; // Return success or failure message based on the result.
-        }
-    }
-
 }
-
