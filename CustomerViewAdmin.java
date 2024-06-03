@@ -76,6 +76,13 @@ public class CustomerViewAdmin extends JFrame {
         Customer customer = new Customer(name, email, password, address, phoneNumber); // Create a Customer object with the data
         new Client().sendCustomerData(customer); // Send customer data to the server using a Client instance.
     }
+
+    /**
+     * Method to load customer data from the server and populate the table.
+     */
+    private void loadCustomerData() {
+// to do. need to rework the code above. 
+    }
     
     /**
      * Main method to create and show the GUI.
