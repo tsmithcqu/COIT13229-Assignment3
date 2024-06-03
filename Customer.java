@@ -6,6 +6,7 @@ import java.io.Serializable;
 * The Customer class models the data for a customer and is designed to be passed between client and server.
 */
 public class Customer implements Serializable {
+    private static final long serialVersionUID = 1L; // UID for serialising, ensures class structure consistency during deserialisation.
 
     /**
     * Private fields to hold customer information.
