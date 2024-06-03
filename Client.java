@@ -2,6 +2,7 @@ package mhds;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 import javax.swing.JOptionPane; 
 
 /**
@@ -19,18 +20,25 @@ public class Client {
      * More methods will need to be added for different functions of the program. 
      */
      public void sendCustomerData(Customer customer) {
-        /**
+          sendRequest("ADD_CUSTOMER", customer); // Send request to add a customer.
+     }
+
+     // ADD MORE FUNCTIONS HERE.
+     
+         /**
          * Establish a connection with the server and open streams.
+         * Gen AI provided general guidance on the usage of the generic type parameter <T> for the expandabilitiy and reusability of the sendRequest method. 
          */
+     private <T> T sendRequest(String action, Object data) {
         try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);  // Connect to the server at the specified address and port.
              ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());  // Create an ObjectOutputStream to send data to the server.
              ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {  // Create an ObjectInputStream to receive data from the server.
 
             out.writeObject(customer);  // Serialise and send the Customer object to the server.
             out.flush();  // Flush the output stream to ensure all data is sent.
-
-            String response = (String) in.readObject(); // Wait for a response from the server and read it
-            JOptionPane.showMessageDialog(null, "Server response: " + response); // Show the server response in the GUI.
+             
+            T response = (T) in.readObject(); // Wait for a response from the server and read it.
+            return response; // Return the response received from the server.
 
         } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Error communicating with the server: " + e.getMessage(), "Connection Error", JOptionPane.ERROR_MESSAGE); // Show an error dialog if there is a problem communicating with the server
