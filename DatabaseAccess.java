@@ -42,9 +42,10 @@ public class DatabaseAccess implements AutoCloseable {
             ps.setString(5, customer.getPhoneNumber());
 
             /**
-             * Execute the update.
+             * Execute the update and return true if the update affected at least one row.
              */
             int result = ps.executeUpdate();
+            return result > 0;
         } catch (SQLException e) {
             e.printStackTrace(); // Print stack trace if an SQLException occurs.
             return false; // Return false if there is an SQL error.
