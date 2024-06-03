@@ -71,8 +71,13 @@ private void handleClient(Socket clientSocket) {
              */
             try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                 boolean success = dbAccess.addCustomer(customer); // Attempt to add customer to the database.
+                String response = success ? "Customer processed successfully." : "Failed to process customer."; // Prepare response based on the operation's success
                 out.writeObject(response); // Send the response back to the client to be displayed by the GUI. 
-            } 
+            } catch (SQLException e) {
+                out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue. 
+                System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error. 
+                e.printStackTrace();
+            }
             out.flush(); // Flush the output stream to ensure all data is sent
 
         }
