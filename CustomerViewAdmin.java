@@ -114,7 +114,9 @@ public class CustomerViewAdmin extends JFrame {
                 customer.getAddress(),
                 customer.getPhoneNumber()
             };
+            tableModel.addRow(rowData); // Add row data to the table.
         }
+        customerTable.setModel(tableModel); // Set the table model for displaying data.
     }
     
     /**
