@@ -22,11 +22,14 @@ public class Server {
      * Start the server and listen for incoming connections from the Client.
      */
     public void startServer() {
+        System.out.println("Server is starting..."); // Display a message to the console that the server is starting. 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) { // Open a server socket on the specified port.
+            System.out.println("Server is running on port " + PORT); // Display a message that the server is running.
 
             while (true) { // Infinite loop to continuously accept new client connections.
                 try {
                     Socket clientSocket = serverSocket.accept(); // Accept a client connection.
+                    System.out.println("Client connected"); // Display a message to the console that a client has connected. 
                     
                     /**
                      * Start a new thread to handle the client, ensuring each client is handled concurrently.
@@ -35,8 +38,14 @@ public class Server {
                      * Gen AI originally provided assistance with this in Assignment 1. 
                      */
                     new Thread(() -> handleClient(clientSocket)).start();
-                } 
+                } catch (IOException e) {
+                    System.err.println("Error accepting client connection: " + e.getMessage()); // Display an error in the console if the connection cannot be accepted.
+                    e.printStackTrace();
+                }
             }
+        } catch (IOException e) {
+            System.err.println("Server failed to start: " + e.getMessage()); // Log an error if the server socket cannot be opened. 
+            e.printStackTrace();
         }
     }
         
