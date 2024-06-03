@@ -2,6 +2,7 @@ package mhds;
 
 import java.io.*;
 import java.net.Socket;
+import javax.swing.JOptionPane; 
 
 /**
  * Class to handle communication with the server. 
@@ -29,8 +30,16 @@ public class Client {
             out.flush();  // Flush the output stream to ensure all data is sent.
         } 
     }
+        } catch (IOException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Error communicating with the server: " + e.getMessage(), "Connection Error", JOptionPane.ERROR_MESSAGE); // Show an error dialog if there is a problem communicating with the server
+        }
+    }
+}
 
-    /**
+/**
+
+OLD CODE BELOW
+
     public void createDeliverySchedule(DeliverySchedule schedule) {
         new Thread(() -> handleOperation(schedule, "createDeliverySchedule")).start();
     }
@@ -62,9 +71,3 @@ public class Client {
             // The below will need to be change - it will need to be displayed to the GUI. Not sure how yet. 
             System.out.println("Response from server: " + response);  // Output the response received from the server.
             */
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error communicating with the server: " + e.getMessage());  // Handle IO and Class Not Found errors.
-        }
-    }
-}
