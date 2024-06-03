@@ -3,23 +3,31 @@ package mhds;
 import javax.swing.*;
 import java.awt.*;
 
-// A GUI class extending JFrame for creating and handling the customer registration form.
+/**
+ * Class for creating and displaying a GUI for registering new customers.
+ */
 public class CustomerViewAdmin extends JFrame {
-    // Declare components to be used in the form
+    /**
+     * Declare form components. 
+     */
     private JTextField nameField, emailField, passwordField, addressField, phoneNumberField;
-    private JButton addButton;
-    private Client client;
+    private JButton submitButton;
 
-    // Constructor initialises the GUI. Basic while getting it working. 
+    /**
+     * Constructor to set up the GUI.
+     * Very basic for the moment. This can be updated as needed. 
+     */
     public CustomerViewAdmin() {
-        super("Register New Customer"); // Set the title of the JFrame window.
-        this.client = new Client(); // Create a new instance of Client for communication.
-        createForm(); // Call the method to create the form components.
+        super("Register New Customer for MHDS"); // Set the title of the JFrame window.
+        initializeComponents(); // Call method to initialise GUI components.
+        setSize(300, 220); // Set the initial size of the frame.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation to exit the application.
-        setSize(300, 300); // Set the initial size of the frame.
         setLocationRelativeTo(null); // Center the frame on the screen.
     }
 
+     /**
+     * Initialises the components and layouts of the GUI.
+     */
     private void createForm() {
         setLayout(new GridLayout(6, 2));  // Set the layout of the JFrame to a grid layout with 6 rows and 2 columns
 
