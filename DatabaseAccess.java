@@ -52,6 +52,8 @@ public class DatabaseAccess implements AutoCloseable {
         }
     }
 
+    // Add more database unteractions here. Such as viewing etc. 
+
     /**
      * Method to close the database connection.
      */
