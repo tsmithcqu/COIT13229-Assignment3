@@ -60,10 +60,18 @@ public class DatabaseAccess implements AutoCloseable {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-                // to do - array to store customers
-
-                // rs statements here
-                
+             List<Customer> customers = new ArrayList<>(); // Create a list to store the retrieved customers.
+             while (rs.next()) { // Iterate through the result set.
+                /**
+                 * Create a new Customer object for each row in the result set and add it to the list.
+                 */
+                customers.add(new Customer(
+                        rs.getString("Username"),
+                        rs.getString("Email"),
+                        rs.getString("Password"),
+                        rs.getString("Address"),
+                        rs.getString("PhoneNumber")
+                ));
             }
             return customers; // Return the list of customers.
         }
