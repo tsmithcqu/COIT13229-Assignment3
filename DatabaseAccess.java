@@ -32,10 +32,19 @@ public class DatabaseAccess implements AutoCloseable {
     public boolean addCustomer(Customer customer) {
         String sql = "INSERT INTO Users (Username, Password, Email, Address, PhoneNumber) VALUES (?, ?, ?, ?, ?)"; // SQL statement to insert a new user into the Users table.
         try (PreparedStatement ps = connection.prepareStatement(sql)) { 
+            /**
+             * Set the values for the PreparedStatement from the customer object.
+             */
+            ps.setString(1, customer.getName());
+            ps.setString(2, customer.getPassword());
+            ps.setString(3, customer.getEmail());
+            ps.setString(4, customer.getAddress());
+            ps.setString(5, customer.getPhoneNumber());
 
-            // Need to do prepared statements here. 
-
-
+            /**
+             * Execute the update.
+             */
+            int result = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace(); // Print stack trace if an SQLException occurs.
             return false; // Return false if there is an SQL error.
