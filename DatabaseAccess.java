@@ -24,6 +24,24 @@ public class DatabaseAccess implements AutoCloseable {
         this.connection = DriverManager.getConnection(URL, USERNAME, PASSWORD); // Attempt to establish a database connection using provided credentials.
     }
 
+     /**
+     * Method to add a new customer to the database.
+     * New methods will need to be created for different functions of the application. 
+     * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
+     */
+    public boolean addCustomer(Customer customer) {
+        String sql = "INSERT INTO Users (Username, Password, Email, Address, PhoneNumber) VALUES (?, ?, ?, ?, ?)"; // SQL statement to insert a new user into the Users table.
+        try (PreparedStatement ps = connection.prepareStatement(sql)) { 
+
+            // Need to do prepared statements here. 
+
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print stack trace if an SQLException occurs.
+            return false; // Return false if there is an SQL error.
+        }
+    }
+
     /**
      * Method to close the database connection.
      */
