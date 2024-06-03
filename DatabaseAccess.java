@@ -281,14 +281,13 @@ The below needs to be completely overhauled. Currently not functioning.
 
     // TODO add Delete a schedule (admin function).
 
-    public void close()
-    {
-        try {
-            connection.close();
-        }
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+    /**
+     * Method to close the database connection.
+     */
+    @Override
+    public void close() throws SQLException {
+        if (this.connection != null && !this.connection.isClosed()) { // Check if the connection is still open.
+            this.connection.close(); // Close the connection to free resources.
         }
     }
-
 }
