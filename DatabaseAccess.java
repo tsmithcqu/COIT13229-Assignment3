@@ -5,16 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/**
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.sql.*;
-import java.util.List;
-import java.util.ArrayList;
 
-
-import static java.sql.DriverManager.getConnection;
-*/
 
 /**
  * Class to handle database operations, implements AutoCloseable to ensure resources are freed properly.
@@ -34,8 +25,29 @@ public class DatabaseAccess implements AutoCloseable {
     }
 
     /**
+     * Method to close the database connection.
+     */
+    @Override
+    public void close() throws SQLException {
+        if (this.connection != null && !this.connection.isClosed()) { // Check if the connection is still open.
+            this.connection.close(); // Close the connection to free resources.
+        }
+    }
+}
 
+
+/**
+OLD CODE BELOW. Leaving it here to grab things from if needed. 
 The below needs to be completely overhauled. Currently not functioning. 
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
+
+
+import static java.sql.DriverManager.getConnection;
     
     //Customer Statements
     private PreparedStatement insertNewCustomer = null;
@@ -280,14 +292,3 @@ The below needs to be completely overhauled. Currently not functioning.
     */
 
     // TODO add Delete a schedule (admin function).
-
-    /**
-     * Method to close the database connection.
-     */
-    @Override
-    public void close() throws SQLException {
-        if (this.connection != null && !this.connection.isClosed()) { // Check if the connection is still open.
-            this.connection.close(); // Close the connection to free resources.
-        }
-    }
-}
