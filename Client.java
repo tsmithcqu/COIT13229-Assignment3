@@ -28,8 +28,10 @@ public class Client {
 
             out.writeObject(customer);  // Serialise and send the Customer object to the server.
             out.flush();  // Flush the output stream to ensure all data is sent.
-        } 
-    }
+
+            String response = (String) in.readObject(); // Wait for a response from the server and read it
+            JOptionPane.showMessageDialog(null, "Server response: " + response); // Show the server response in the GUI.
+
         } catch (IOException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Error communicating with the server: " + e.getMessage(), "Connection Error", JOptionPane.ERROR_MESSAGE); // Show an error dialog if there is a problem communicating with the server
         }
