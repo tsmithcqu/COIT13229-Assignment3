@@ -90,6 +90,8 @@ private void handleClient(Socket clientSocket) {
                         e.printStackTrace();
                     }
                     break; 
+
+                    // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
                     
             // Add more switch-case here for different functions of the server application (view users, etc). 
                         
