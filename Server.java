@@ -78,36 +78,7 @@ private void handleClient(Socket clientSocket) {
     /**
      * Runs the client handler which reads and writes messages to the client.
      */
-    @Override
-    public void run() {
-            try (ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());  // Receive data from the client. 
-                 ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream())) { // Send data back to the client. 
-
-                String operationType = (String) input.readObject();  // Read and store the type of operation requested by the client.
-                String response = "Operation failed"; // Response if operation does not complete successfully.
-
-                switch (operationType) {
-                    case "registerCustomer" -> {
-                        Customer customer = (Customer) input.readObject(); // Read the Customer object from the client.
-                        response = handleCustomerRegistration(customer); // Handle customer registration and get the response.
-                    }
-                    case "addSchedule" -> {
-                        // to do
-                    }
-                }
-                
-                output.writeObject(response);  // Send the response back to the client
-
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Error handling client data: " + e.getMessage());
-            } finally {
-                try {
-                    clientSocket.close();  // Ensure the client socket is closed after processing. 
-                } catch (IOException e) {
-                    System.out.println("Error closing client socket: " + e.getMessage());
-                }
-            }
-        }
+    
 
         private String handleCustomerRegistration(Customer customer) {
         int result = dbAccess.addCustomer(customer.getName(), customer.getEmail(), customer.getPassword(), customer.getAddress(), customer.getPhoneNumber());
