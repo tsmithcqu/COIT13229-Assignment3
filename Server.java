@@ -79,7 +79,14 @@ private void handleClient(Socket clientSocket) {
                     e.printStackTrace();
                 }
                 break;
-            
+
+                case "VIEW_CUSTOMERS": // Case to handle viewing all customers.
+                    try {
+                        List<Customer> customers = dbAccess.getAllCustomers(); // Retrieve all customers from the database.
+                        out.writeObject(customers); // Send the list of customers back to the client.
+                    } 
+                    break; 
+                    
             // Add more switch-case here for different functions of the server application (view users, etc). 
                         
             }
