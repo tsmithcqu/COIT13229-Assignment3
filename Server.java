@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Server {
     private static final int PORT = 6969; // Port number where the server will listen for incoming connections from the Client.    
@@ -57,26 +58,29 @@ private void handleClient(Socket clientSocket) {
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream()); // Open an input stream to receive data from the client. 
             ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream()) // Open an output stream to send data to the client.
         )   {
-
-            /**
-            * This is created only for registering customers. 
-            * Modifications need to occur to perform other functions like working with delivery schedules, etc. 
-            */
-            Customer customer = (Customer) in.readObject(); // Read customer object from the client.
-            System.out.println("Received customer data: " + customer); // Log the received customer data.
+            String action = (String) in.readObject(); // Read the action string from the client.
 
             /**
              * Process the customer data using the DatabaseAccess instance. 
              * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
-             */
-            try (DatabaseAccess dbAccess = new DatabaseAccess()) {
-                boolean success = dbAccess.addCustomer(customer); // Attempt to add customer to the database.
-                String response = success ? "Customer processed successfully." : "Failed to process customer."; // Prepare response based on the operation's success
-                out.writeObject(response); // Send the response back to the client to be displayed by the GUI. 
-            } catch (SQLException e) {
-                out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue. 
-                System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error. 
-                e.printStackTrace();
+             */   
+            switch (action) {
+                case "ADD_CUSTOMER": // Case to handle adding a new customer.
+                Customer customer = (Customer) in.readObject(); // Read customer object from the client.
+                System.out.println("Received customer data: " + customer); // Log the received customer data.
+                try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                    boolean success = dbAccess.addCustomer(customer); // Attempt to add customer to the database.
+                    String response = success ? "Customer processed successfully." : "Failed to process customer."; // Prepare response based on the operation's success
+                    out.writeObject(response); // Send the response back to the client to be displayed by the GUI. 
+                } catch (SQLException e) {
+                    out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue. 
+                    System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error. 
+                    e.printStackTrace();
+                }
+                break;
+            
+            // Add more switch-case here for different functions of the server application (view users, etc). 
+                        
             }
             out.flush(); // Flush the output stream to ensure all data is sent
 
