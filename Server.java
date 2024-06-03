@@ -49,15 +49,6 @@ public class Server {
         }
     }
         
-    /**
-     * Constructor initialises the server on a specified port.
-     */
-    public Server() throws IOException {
-        serverSocket = new ServerSocket(port); // Initialises the ServerSocket on the specified port.
-        dbAccess = new DatabaseAccess();  // Initialise the DatabaseAccess to handle database operations.
-        System.out.println("MDHS Server is running on port " + port); // Console output indicating server is running. 
-    }
-
 /**
  * Thread to handle individual client connections.
  */
