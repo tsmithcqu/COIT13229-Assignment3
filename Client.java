@@ -44,6 +44,42 @@ public class Client {
         return sendRequest("VIEW_PRODUCTS", null); // Send request to view all products.
     }
 
+    /**
+     * Method to send delivery schedule data to the database.
+     */
+    public void sendScheduleData(DeliverySchedule deliverySchedule) {
+        sendRequest("ADD_SCHEDULE", deliverySchedule); // Send request to add a delivery schedule.
+    }
+
+    /**
+     * Method to update delivery schedule data to the database.
+     */
+    public void updateScheduleData(DeliverySchedule deliverySchedule) {
+        sendRequest("UPDATE_SCHEDULE", deliverySchedule); // Send request to update a delivery schedule.
+    }
+
+    /**
+     * Method to fetch deliveries by postcode from the database.
+     */
+    public List<DeliverySchedule> fetchDeliveryByPostcode() {
+        return sendRequest("VIEW_DELIVERYBYPOSTCODE", null); // Send request to view deliveries by postcode.
+    }
+
+    /**
+     * Method to fetch deliveries by day from the database.
+     */
+    public List<DeliverySchedule> fetchDeliveryByDay() {
+        return sendRequest("VIEW_DELIVERYBYDAY", null); // Send request to view deliveries by day.
+    }
+
+    /**
+     * Method to send delivery schedule data to the database.
+     */
+    public void sendOrderData(Order orders) {
+        sendRequest("ADD_ORDER", orders); // Send request to add a delivery schedule.
+    }
+
+
      // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
 
      // ADD MORE FUNCTIONS HERE.

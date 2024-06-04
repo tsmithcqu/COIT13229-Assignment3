@@ -133,7 +133,7 @@ private void handleClient(Socket clientSocket) {
                  * add the schedule data using the DatabaseAccess instance.
                  */
                 case "ADD_SCHEDULE": // Case to handle adding a new delivery schedule.
-                    mdhs.DeliverySchedule deliverySchedule = (mdhs.DeliverySchedule) in.readObject(); // Read delivery object from the client.
+                    DeliverySchedule deliverySchedule = (DeliverySchedule) in.readObject(); // Read delivery object from the client.
                     System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
 
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
@@ -151,7 +151,7 @@ private void handleClient(Socket clientSocket) {
                  * update the schedule data using the DatabaseAccess instance.
                  */
                 case "UPDATE_SCHEDULE": // Case to handle updating a new delivery schedule.
-                    mdhs.DeliverySchedule deliverySchedule = (mdhs.DeliverySchedule) in.readObject(); // Read product object from the client.
+                    DeliverySchedule deliverySchedule = (DeliverySchedule) in.readObject(); // Read product object from the client.
                     System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
 
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
@@ -170,7 +170,7 @@ private void handleClient(Socket clientSocket) {
                  */
                 case "VIEW_DELIVERYBYPOSTCODE": // Case to handle viewing all deliveries.
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
-                        List<mdhs.DeliverySchedule> deliverySchedules = dbAccess.getDetailsByPostcode(); // Retrieve all deliveries from the database.
+                        List<DeliverySchedule> deliverySchedules = dbAccess.getDetailsByPostcode(); // Retrieve all deliveries from the database.
                         out.writeObject(deliverySchedules); // Send the list of deliveries back to the client.
                     } catch (SQLException e) {
                         out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
@@ -184,7 +184,7 @@ private void handleClient(Socket clientSocket) {
                  */
                 case "VIEW_DELIVERYBYDAY": // Case to handle viewing all deliveries.
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
-                        List<mdhs.DeliverySchedule> deliverySchedules = dbAccess.getDetailsByDay(); // Retrieve all deliveries from the database.
+                        List<DeliverySchedule> deliverySchedules = dbAccess.getDetailsByDay(); // Retrieve all deliveries from the database.
                         out.writeObject(deliverySchedules); // Send the list of deliveries back to the client.
                     } catch (SQLException e) {
                         out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
@@ -197,7 +197,7 @@ private void handleClient(Socket clientSocket) {
                  * add the order data using the DatabaseAccess instance.
                  */
                 case "ADD_ORDER": // Case to handle adding a new order.
-                    mdhs.DeliverySchedule orders = (mdhs.DeliverySchedule) in.readObject(); // Read order object from the client.
+                    Order orders = (Order) in.readObject(); // Read order object from the client.
                     System.out.println("Received order data: " + orders); // Log the received order data.
 
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
