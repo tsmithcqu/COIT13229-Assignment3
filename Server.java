@@ -91,6 +91,10 @@ private void handleClient(Socket clientSocket) {
                     }
                     break; 
 
+                    case "ADD_PRODUCT": // Case to handle adding a new product.
+
+                    case "VIEW_PRODUCTS": // Case to handle viewing all products.
+
                     // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
                     
             // Add more switch-case here for different functions of the server application (view users, etc). 
