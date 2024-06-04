@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A GUI class extending JFrame for creating and handling both the customer registration and viewing functionalities.
+ * A GUI class extending JFrame for registering for the MHDS system. 
  */
 public class RegistrationScreen extends JFrame {
     private JTextField nameField, emailField, passwordField, addressField, phoneNumberField;
@@ -33,32 +33,32 @@ public class RegistrationScreen extends JFrame {
         JPanel formPanel = new JPanel(new GridLayout(7, 2));
         
         // Adding customer name components
-        formPanel.add(new JLabel("Name:"));
-        nameField = new JTextField(20);
+        formPanel.add(new JLabel("Name:")); // Label for name.
+        nameField = new JTextField(20); // Text field for entering name. 
         formPanel.add(nameField);
 
         // Adding customer email components
-        formPanel.add(new JLabel("Email:"));
-        emailField = new JTextField(20);
+        formPanel.add(new JLabel("Email:")); // Label for email.
+        emailField = new JTextField(20); // Text field for entering email. 
         formPanel.add(emailField);
 
         // Adding customer password components
-        formPanel.add(new JLabel("Password:"));
-        passwordField = new JTextField(20);
+        formPanel.add(new JLabel("Password:")); // Label for password.
+        passwordField = new JTextField(20); // Text field for entering password. 
         formPanel.add(passwordField);
 
         // Adding customer address components
-        formPanel.add(new JLabel("Address:"));
-        addressField = new JTextField(20);
+        formPanel.add(new JLabel("Address:")); // Label for address.
+        addressField = new JTextField(20); // Text field for entering address. 
         formPanel.add(addressField);
 
         // Adding customer phone number components
-        formPanel.add(new JLabel("Phone Number:"));
-        phoneNumberField = new JTextField(20);
+        formPanel.add(new JLabel("Phone Number:")); // Label for phone number.
+        phoneNumberField = new JTextField(20); // Text field for entering phone number. 
         formPanel.add(phoneNumberField);
 
         // Button to Register
-        addButton = new JButton("Register");
+        addButton = new JButton("Register"); // Button to register. 
         addButton.addActionListener(e -> submitCustomerData()); // Set action listener to handle button click
         formPanel.add(addButton);
 
@@ -66,6 +66,7 @@ public class RegistrationScreen extends JFrame {
 
     /**
      * Method to handle the button click event for submitting customer data.
+     * Copied directly from CustomerViewAdmin.
      */
     private void submitCustomerData() {
         String name = nameField.getText();
