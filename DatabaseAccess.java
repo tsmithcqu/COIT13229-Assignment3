@@ -77,7 +77,58 @@ public class DatabaseAccess implements AutoCloseable {
         }
     }
 
-    // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
+    //ADMIN FUNCTIONS
+    // Add a schedule (admin function).
+    public boolean addAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
+        String sql = "INSERT INTO delivery_schedules (postcode, deliveryDay, deliveryCost) VALUES (?, ?, ?)"; // SQL statement to insert a new user into the Users table.
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            /**
+             * Set the values for the PreparedStatement from the DeliverySchedule object.
+             */
+            ps.setString(1, DeliverySchedule.getPostcode());
+            ps.setString(2, DeliverySchedule.getDeliveryDay());
+            ps.setDouble(3, DeliverySchedule.getDeliveryCost());
+
+            /**
+             * Execute the update and return true if the update affected at least one row.
+             */
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print stack trace if an SQLException occurs.
+            return false; // Return false if there is an SQL error.
+        }
+    }
+
+
+    // Update a schedule (admin function).
+    public boolean updateAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
+        String sql = "UPDATE delivery_schedules SET postcode = ?, delivery_cost = ? WHERE delivery_day = ? "; // SQL statement to insert a new user into the Users table.
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            /**
+             * Set the values for the PreparedStatement from the DeliverySchedule object.
+             */
+            ps.setString(1, DeliverySchedule.getPostcode());
+            ps.setString(2, DeliverySchedule.getDeliveryDay());
+            ps.setDouble(3, DeliverySchedule.getDeliveryCost());
+
+            /**
+             * Execute the update and return true if the update affected at least one row.
+             */
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print stack trace if an SQLException occurs.
+            return false; // Return false if there is an SQL error.
+        }
+    }
+
+
+    /**
+
+
+     // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database.
+
     
     // Add more database unteractions here. Such as viewing etc. 
 
@@ -118,10 +169,6 @@ import static java.sql.DriverManager.getConnection;
 
     //Product Statements
     private PreparedStatement selectProductByName = null;
-
-    //ADMIN Schedule Statements
-    private PreparedStatement insertNewSchedule = null;
-    private PreparedStatement updateExistingSchedule = null;
 
 
     //Prepares database statements
@@ -178,24 +225,6 @@ import static java.sql.DriverManager.getConnection;
 
     }
 
-    //Adds customer to database
-    public int addCustomer(String fullName, String phoneNumber, String email, String password, String address)
-    {
-        int result = 0;
-        try {
-            insertNewCustomer.setString(1, fullName);
-            insertNewCustomer.setString(2, phoneNumber);
-            insertNewCustomer.setString(3, email);
-            insertNewCustomer.setString(4, password);
-            insertNewCustomer.setString(5, address);
-
-            result = insertNewCustomer.executeUpdate();
-        }
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return result;
-    }
 
 
     //Inserts order to database
@@ -310,41 +339,6 @@ import static java.sql.DriverManager.getConnection;
         return productNameList;
     }
 
-
-    //ADMIN FUNCTIONS
-    // Add a schedule (admin function).
-    public int addAdminSchedule(String postcode, String deliveryDay, Double deliveryCost)
-    {
-        int result = 0;
-        try {
-            insertNewSchedule.setString(1, postcode);
-            insertNewSchedule.setString(2, deliveryDay);
-            insertNewSchedule.setDouble(3, deliveryCost);
-
-            result = insertNewSchedule.executeUpdate();
-        }
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return result;
-    }
-
-    // Update a schedule (admin functon).
-    private int updateAdminSchedule(String postcode, String deliveryDay, Double deliveryCost)
-    {
-        int result = 0;
-        try {
-            updateExistingSchedule.setString(1, postcode);
-            updateExistingSchedule.setString(2, deliveryDay);
-            updateExistingSchedule.setDouble(3, deliveryCost);
-
-            result = updateExistingSchedule.executeUpdate();
-        }
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return result;
-    }
 
     */
 
