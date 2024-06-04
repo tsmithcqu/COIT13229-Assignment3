@@ -82,120 +82,37 @@ public class ProductViewAdmin extends JFrame {
         add(viewButton);
     }
 
-    private void loadProductData(JTable productTable) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT id, name, unit, quantity, price, ingredients FROM products");
+      /**
+     * Method to handle the button click event for submitting product data.
+     */
+    private void submitProductData() {
+        /**
+         * Retrieve text from each text field.
+         */
+        String name = nameField.getText();
+        double price = Double.parseDouble(priceField.getText());
+        String ingredients = ingredientsField.getText();
+        String unit = unitField.getText();
+        int quantity = Integer.parseInt(quantityField.getText());
 
-            String[] columnNames = {"ID", "Name", "Unit", "Quantity", "Price", "Ingredients"};
-            Object[][] data = new Object[50][6];
-            int rowCount = 0;
+        /**
+         * Create a new Product object with the data from the form.
+         */
+        Product product = new Product(name, price, ingredients, unit, quantity);
 
-            while (resultSet.next()) {
-                data[rowCount][0] = resultSet.getInt("id");
-                data[rowCount][1] = resultSet.getString("name");
-                data[rowCount][2] = resultSet.getString("unit");
-                data[rowCount][3] = resultSet.getInt("quantity");
-                data[rowCount][4] = resultSet.getDouble("price");
-                data[rowCount][5] = resultSet.getString("ingredients");
-                rowCount++;
-            }
-
-            productTable.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
-            resultSet.close();
-            statement.close();
-            connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        /**
+         * Use the client to send the product data for registration.
+         */
+        client.sendProductData(product);
     }
 
-    private void addProduct() {
-        String name = txtName.getText();
-        String unit = txtUnit.getText();
-        int quantity = Integer.parseInt(txtQuantity.getText());
-        double price = Double.parseDouble(txtPrice.getText());
-        String ingredients = txtIngredients.getText();
-
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO products (name, unit, quantity, price, ingredients) VALUES (?, ?, ?, ?, ?)");
-            ps.setString(1, name);
-            ps.setString(2, unit);
-            ps.setInt(3, quantity);
-            ps.setDouble(4, price);
-            ps.setString(5, ingredients);
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
-
-            loadProductData(productTable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateProduct() {
-        int selectedRow = productTable.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Select a product to update.");
-            return;
-        }
-
-        int productId = (int) productTable.getValueAt(selectedRow, 0);
-        String name = txtName.getText();
-        String unit = txtUnit.getText();
-        int quantity = Integer.parseInt(txtQuantity.getText());
-        double price = Double.parseDouble(txtPrice.getText());
-        String ingredients = txtIngredients.getText();
-
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            PreparedStatement ps = connection.prepareStatement("UPDATE products SET name = ?, unit = ?, quantity = ?, price = ?, ingredients = ? WHERE id = ?");
-            ps.setString(1, name);
-            ps.setString(2, unit);
-            ps.setInt(3, quantity);
-            ps.setDouble(4, price);
-            ps.setString(5, ingredients);
-            ps.setInt(6, productId);
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
-
-            loadProductData(productTable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void deleteProduct() {
-        int selectedRow = productTable.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Select a product to delete.");
-            return;
-        }
-
-        int productId = (int) productTable.getValueAt(selectedRow, 0);
-
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM products WHERE id = ?");
-            ps.setInt(1, productId);
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
-
-            loadProductData(productTable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+     /**
+     * Main method to run the GUI.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ProductViewAdmin productViewAdmin = new ProductViewAdmin();
-            productViewAdmin.setVisible(true);
+            ProductViewAdmin frame = new ProductViewAdmin();
+            frame.setVisible(true);
         });
     }
 }
