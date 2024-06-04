@@ -32,7 +32,7 @@ public class DatabaseAccess implements AutoCloseable {
     public boolean addCustomer(Customer customer) {
         String sql = "INSERT INTO Users (Username, Password, Email, Address, PhoneNumber) VALUES (?, ?, ?, ?, ?)"; // SQL statement to insert a new user into the Users table.
         try (PreparedStatement ps = connection.prepareStatement(sql)) { 
-            /**
+            /*
              * Set the values for the PreparedStatement from the customer object.
              */
             ps.setString(1, customer.getName());
@@ -41,7 +41,7 @@ public class DatabaseAccess implements AutoCloseable {
             ps.setString(4, customer.getAddress());
             ps.setString(5, customer.getPhoneNumber());
 
-            /**
+            /*
              * Execute the update and return true if the update affected at least one row.
              */
             int result = ps.executeUpdate();
@@ -62,7 +62,7 @@ public class DatabaseAccess implements AutoCloseable {
 
              List<Customer> customers = new ArrayList<>(); // Create a list to store the retrieved customers.
              while (rs.next()) { // Iterate through the result set.
-                /**
+                /*
                  * Create a new Customer object for each row in the result set and add it to the list.
                  */
                 customers.add(new Customer(
@@ -83,14 +83,14 @@ public class DatabaseAccess implements AutoCloseable {
     public boolean addAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
         String sql = "INSERT INTO delivery_schedules (postcode, deliveryDay, deliveryCost) VALUES (?, ?, ?)"; // SQL statement to insert a new user into the Users table.
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            /**
+            /*
              * Set the values for the PreparedStatement from the DeliverySchedule object.
              */
             ps.setString(1, DeliverySchedule.getPostcode());
             ps.setString(2, DeliverySchedule.getDeliveryDay());
             ps.setDouble(3, DeliverySchedule.getDeliveryCost());
 
-            /**
+            /*
              * Execute the update and return true if the update affected at least one row.
              */
             int result = ps.executeUpdate();
@@ -106,14 +106,14 @@ public class DatabaseAccess implements AutoCloseable {
     public boolean updateAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
         String sql = "UPDATE delivery_schedules SET postcode = ?, delivery_cost = ? WHERE delivery_day = ? "; // SQL statement to insert a new user into the Users table.
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            /**
+            /*
              * Set the values for the PreparedStatement from the DeliverySchedule object.
              */
             ps.setString(1, DeliverySchedule.getPostcode());
             ps.setString(2, DeliverySchedule.getDeliveryDay());
             ps.setDouble(3, DeliverySchedule.getDeliveryCost());
 
-            /**
+            /*
              * Execute the update and return true if the update affected at least one row.
              */
             int result = ps.executeUpdate();
@@ -121,6 +121,30 @@ public class DatabaseAccess implements AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace(); // Print stack trace if an SQLException occurs.
             return false; // Return false if there is an SQL error.
+        }
+    }
+
+
+    //METHODS TO GET PRODUCTS BY NAME
+    public List<mdhs.Product> getProductsByName() throws SQLException {
+        String sql = "SELECT * FROM products where name =?"; // SQL query to select all products by name from the Product table.
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            List<mdhs.Product> products = new ArrayList<>(); // Create a list to store the retrieved products.
+            while (rs.next()) { // Iterate through the result set.
+                /*
+                 * Create a new Product object for each row in the result set and add it to the list.
+                 */
+                products.add(new mdhs.Product(
+                        rs.getString("name"),
+                        rs.getString("unit"),
+                        rs.getInt("quantity"),
+                        rs.getDouble("price"),
+                        rs.getString("ingredients")
+                ));
+            }
+            return products; // Return the list of products.
         }
     }
 
