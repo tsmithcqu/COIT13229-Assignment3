@@ -25,9 +25,12 @@ public class DatabaseAccess implements AutoCloseable {
     }
 
      /**
-     * Method to add a new customer to the database.
      * New methods will need to be created for different functions of the application. 
      * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
+     */
+
+     /**
+     * Method to add a new customer to the database.
      */
     public boolean addCustomer(Customer customer) {
         String sql = "INSERT INTO Users (Username, Password, Email, Address, PhoneNumber) VALUES (?, ?, ?, ?, ?)"; // SQL statement to insert a new user into the Users table.
