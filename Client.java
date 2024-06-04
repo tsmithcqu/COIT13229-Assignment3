@@ -30,6 +30,20 @@ public class Client {
          return sendRequest("VIEW_CUSTOMERS", null); // Send request to view all customers.
      }
 
+     /**
+     * Method to send product data to the database.
+     */
+    public void sendProductData(Product product) {
+        sendRequest("ADD_PRODUCT", product); // Send request to add a product.
+    }
+
+    /**
+     * Method to fetch all products from the database.
+     */
+    public List<Product> fetchAllProducts() {
+        return sendRequest("VIEW_PRODUCTS", null); // Send request to view all products.
+    }
+
      // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
 
      // ADD MORE FUNCTIONS HERE.
