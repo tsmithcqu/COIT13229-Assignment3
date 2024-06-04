@@ -119,9 +119,16 @@ private void handleClient(Socket clientSocket) {
                     * View the products using the DatabaseAccess instance.
                     */
                     case "VIEW_PRODUCTS": // Case to handle viewing all products.
-
-                    // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
-                    
+                        try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        List<Product> products = dbAccess.getAllProducts(); // Retrieve all products from the database.
+                        out.writeObject(products); // Send the list of products back to the client.
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
+                        System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error.
+                        e.printStackTrace();
+                    }
+                    break;
+                 
             // Add more switch-case here for different functions of the server application (view users, etc). 
                         
             }
