@@ -1,64 +1,85 @@
+package mhds;
+
 import javax.swing.*;
 import java.awt.*;
-import java.sql.*;
 
+/**
+ * A GUI class extending JFrame for creating and handling the product management form.
+ */
 public class ProductViewAdmin extends JFrame {
 
-    private JTextField txtName;
-    private JTextField txtUnit;
-    private JTextField txtQuantity;
-    private JTextField txtPrice;
-    private JTextField txtIngredients;
-    private JTable productTable;
+     /**
+     * Declare components to be used in the form.
+     */
+    private JTextField nameField, priceField, ingredientsField, unitField, quantityField;
+    private JButton addButton, viewButton;
+    private Client client;
 
+     /**
+     * Constructor initialises the GUI.
+     */
     public ProductViewAdmin() {
-        setTitle("Product Management");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super("Manage Products for MHDS"); // Set the title of the JFrame window.
+        this.client = new Client(); // Create a new instance of Client for communication.
+        initializeComponents(); // Call the method to create the form components.
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation to exit the application.
+        setSize(400, 400); // Set the initial size of the frame.
+        setLocationRelativeTo(null); // Center the frame on the screen.
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        /**
+     * Method to set up the form with labels, text fields, and buttons.
+     */
+     private void initializeComponents() {
+        setLayout(new GridLayout(6, 2));  // Set the layout of the JFrame to a grid layout with 6 rows and 2 columns.
 
-        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 10, 10));
-        txtName = new JTextField();
-        txtUnit = new JTextField();
-        txtQuantity = new JTextField();
-        txtPrice = new JTextField();
-        txtIngredients = new JTextField();
+        /**
+         * Add product name label and text field to the form.
+         */
+        add(new JLabel("Product Name:")); // Label for product name.
+        nameField = new JTextField(20); // Text field for entering product name. 
+        add(nameField);
 
-        inputPanel.add(new JLabel("Name:"));
-        inputPanel.add(txtName);
-        inputPanel.add(new JLabel("Unit:"));
-        inputPanel.add(txtUnit);
-        inputPanel.add(new JLabel("Quantity:"));
-        inputPanel.add(txtQuantity);
-        inputPanel.add(new JLabel("Price:"));
-        inputPanel.add(txtPrice);
-        inputPanel.add(new JLabel("Ingredients:"));
-        inputPanel.add(txtIngredients);
+        /**
+         * Add product price label and text field to the form.
+         */
+        add(new JLabel("Price:")); // Label for product price.
+        priceField = new JTextField(20); // Text field for entering product price. 
+        add(priceField);
 
-        JButton btnAdd = new JButton("Add Product");
-        JButton btnUpdate = new JButton("Update Product");
-        JButton btnDelete = new JButton("Delete Product");
+        /**
+         * Add product ingredients label and text field to the form.
+         */
+        add(new JLabel("Ingredients:")); // Label for product ingredients.
+        ingredientsField = new JTextField(20); // Text field for entering product ingredients. 
+        add(ingredientsField);
 
-        btnAdd.addActionListener(e -> addProduct());
-        btnUpdate.addActionListener(e -> updateProduct());
-        btnDelete.addActionListener(e -> deleteProduct());
+        /**
+         * Add product unit label and text field to the form.
+         */
+        add(new JLabel("Unit:")); // Label for product unit.
+        unitField = new JTextField(20); // Text field for entering product unit. 
+        add(unitField);
 
-        inputPanel.add(btnAdd);
-        inputPanel.add(btnUpdate);
-        inputPanel.add(btnDelete);
+        /**
+         * Add product quantity label and text field to the form.
+         */
+        add(new JLabel("Quantity:")); // Label for product quantity.
+        quantityField = new JTextField(20); // Text field for entering product quantity. 
+        add(quantityField);
 
-        panel.add(inputPanel, BorderLayout.NORTH);
+        /**
+         * Add button to submit the form data.
+         */
+        addButton = new JButton("Add Product"); // Button to add product to the database.
+        addButton.addActionListener(e -> submitProductData()); // Set action listener to handle button click
+        add(addButton);
 
-        productTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(productTable);
-        panel.add(scrollPane, BorderLayout.CENTER);
-
-        loadProductData(productTable);
-
-        add(panel);
+        /**
+         * Add button to view the registered products.
+         */
+        viewButton = new JButton("View Products");
+        viewButton.addActionListener(e -> viewProducts()); // Set action listener to handle button click
+        add(viewButton);
     }
 
     private void loadProductData(JTable productTable) {
