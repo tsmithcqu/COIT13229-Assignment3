@@ -149,7 +149,73 @@ public class DatabaseAccess implements AutoCloseable {
     }
 
 
+    //METHODS TO GET DELIVERIES BY POSTCODE
+    public List<mdhs.DeliverySchedule> getDetailsByPostcode() throws SQLException {
+        String sql = "SELECT * FROM delivery_schedules where postcode =?"; // SQL query to select all delivery schedules by name from the delivery_schedules table.
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            List<mdhs.Product> postcodes = new ArrayList<>(); // Create a list to store the retrieved postcodes.
+            while (rs.next()) { // Iterate through the result set.
+                /*
+                 * Create a new delivery schedules object for each row in the result set and add it to the list.
+                 */
+                postcodes.add(new mdhs.Product(
+                        rs.getString("postcode"),
+                        rs.ggetString("deliveryDay"),
+                        rs.getDouble("deliveryCost")
+                ));
+            }
+            return postcodes; // Return the list of delivery schedules by postcode.
+        }
+    }
+
+    //METHODS TO GET DETAILS BY DAY
+    public List<mdhs.DeliverySchedule> getDetailsByDay() throws SQLException {
+        String sql = "SELECT * FROM delivery_schedules where delivery_day =?"; // SQL query to select all delivery schedules by name from the delivery_schedules table.
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            List<mdhs.Product> postcodes = new ArrayList<>(); // Create a list to store the retrieved postcodes.
+            while (rs.next()) { // Iterate through the result set.
+                /*
+                 * Create a new delivery schedules object for each row in the result set and add it to the list.
+                 */
+                postcodes.add(new mdhs.Product(
+                        rs.getString("postcode"),
+                        rs.ggetString("deliveryDay"),
+                        rs.getDouble("deliveryCost")
+                ));
+            }
+            return postcodes; // Return the list of delivery schedules by postcode.
+        }
+    }
+
+    //Method to Add Orders
+    public boolean addOrder(Order order) {
+        String sql = "INSERT INTO orders" + "(product_id, quantity)" + "VALUES (?, ?)"; // SQL statement to insert a new order into the Orders table.
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            /*
+             * Set the values for the PreparedStatement from the order object.
+             */
+            ps.setString(1, order.getProductID());
+            ps.setString(2, order.getQuantity());
+
+            /*
+             * Execute the update and return true if the update affected at least one row.
+             */
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print stack trace if an SQLException occurs.
+            return false; // Return false if there is an SQL error.
+        }
+    }
+
+
+
     /**
+
 
 
      // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database.
@@ -171,200 +237,7 @@ public class DatabaseAccess implements AutoCloseable {
 
 /**
 OLD CODE BELOW. Leaving it here to grab things from if needed. 
-The below needs to be completely overhauled. Currently not functioning. 
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.sql.*;
-import java.util.List;
-import java.util.ArrayList;
-
-
-import static java.sql.DriverManager.getConnection;
-    
-    //Customer Statements
-    private PreparedStatement insertNewCustomer = null;
-
-    //Delivery Statements
-    private PreparedStatement selectDetailsByPostcode = null;
-    private PreparedStatement selectDetailsByDay = null;
-
-    //Order Statements
-    private PreparedStatement insertNewOrder = null;
-
-    //Product Statements
-    private PreparedStatement selectProductByName = null;
-
-
-    //Prepares database statements
-    public DatabaseAccess() {
-        // Save customer to the database
-        try {
-            //establish connection
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-            //create insert to add new customer to database
-            insertNewCustomer = connection.prepareStatement(
-                    "INSERT INTO customer"
-                            + "(fullName, phoneNumber, email, password, address)"
-                            + "VALUES(?,?,?,?,?)");
-
-
-            //select delivery details by postcode, day and cost
-            selectDetailsByPostcode = connection.prepareStatement(
-                    "SELECT * FROM delivery_schedules where postcode =?"
-            );
-
-            selectDetailsByDay = connection.prepareStatement(
-                    "SELECT * FROM delivery_schedules where delivery_day =?"
-            );
-
-
-            //create new order
-            insertNewOrder = connection.prepareStatement(
-                    "INSERT INTO orders"
-                            + "(product_id, quantity)"
-                            + "VALUES (?, ?)");
-
-
-            //create new product
-            selectProductByName = connection.prepareStatement(
-                    "SELECT * FROM products where name =?");
-
-            //ADMIN Schedule
-            insertNewSchedule = connection.prepareStatement(
-                    "INSERT INTO delivery_schedules"
-                            + "(postcode, deliveryDay, deliveryCost)"
-                            + "VALUES (?, ?, ?)");
-
-            updateExistingSchedule = connection.prepareStatement(
-                    "UPDATE delivery_schedules SET postcode = ?, delivery_cost = ? WHERE delivery_day = ? "
-            );
-
-
-        }//end of try
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-            System.exit(1);
-        }
-
-    }
-
-
-
-    //Inserts order to database
-    public int processAndSaveOrder(String productID, int quantity)
-    {
-        int result = 0;
-        try {
-            insertNewOrder.setString(1, productID);
-            insertNewOrder.setInt(2, quantity);
-
-            result = insertNewOrder.executeUpdate();
-
-        }
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return result;
-    }
-
-    //METHODS TO GET DETAILS BY POSTCODE
-    public List<mdhs.DeliverySchedule> getDetailsByPostcode(String postcode){
-        List<mdhs.DeliverySchedule> postcodeList = null;
-        ResultSet resultSet = null;
-
-        try{
-            selectDetailsByPostcode.setString(1, postcode);
-            resultSet = selectDetailsByPostcode.executeQuery();
-            postcodeList = new ArrayList<mdhs.DeliverySchedule>();
-            while (resultSet.next()){
-                postcodeList.add(new mdhs.DeliverySchedule(
-                        resultSet.getString("postcode"),
-                        resultSet.getString("deliveryDay"),
-                        resultSet.getDouble("deliveryCost")));
-            }//end - while
-        }//end - try
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }// end - catch
-        finally {
-            try {
-                resultSet.close();
-            }//end - try
-            catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        }//end - finally
-        return postcodeList;
-    }
-
-
-    //ADD METHODS TO GET DETAILS BY DAY
-    public List<mdhs.DeliverySchedule> getDetailsByDay(String deliveryDay){
-        List<mdhs.DeliverySchedule> deliveryDayList = null;
-        ResultSet resultSet = null;
-
-        try{
-            selectDetailsByDay.setString(1, deliveryDay);
-            resultSet = selectDetailsByDay.executeQuery();
-            deliveryDayList = new ArrayList<mdhs.DeliverySchedule>();
-            while (resultSet.next()){
-                deliveryDayList.add(new mdhs.DeliverySchedule(
-                        resultSet.getString("postcode"),
-                        resultSet.getString("deliveryDay"),
-                        resultSet.getDouble("deliveryCost")));
-            }//end - while
-        }//end - try
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }// end - catch
-        finally {
-            try {
-                resultSet.close();
-            }//end - try
-            catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        }//end - finally
-        return deliveryDayList;
-    }
-
-
-    //ADD METHODS TO GET PRODUCTS BY NAME
-    public List<mdhs.Product> getProductByName(String name){
-        List<mdhs.Product> productNameList = null;
-        ResultSet resultSet = null;
-
-        try{
-            selectProductByName.setString(1, name);
-            resultSet = selectProductByName.executeQuery();
-            productNameList = new ArrayList<mdhs.Product>();
-            while (resultSet.next()){
-                productNameList.add(new mdhs.Product(
-                        resultSet.getString("name"),
-                        resultSet.getString("unit"),
-                        resultSet.getInt("quantity"),
-                        resultSet.getDouble("price"),
-                        resultSet.getString("ingredients")));
-            }//end - while
-
-        }//end - try
-        catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }// end - catch
-        finally {
-            try {
-                resultSet.close();
-            }//end - try
-            catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        }//end - finally
-        return productNameList;
-    }
-
-
+The below needs to be completely overhauled. Currently not functioning.
     */
 
     // TODO add Delete a schedule (admin function).
