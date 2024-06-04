@@ -128,8 +128,94 @@ private void handleClient(Socket clientSocket) {
                         e.printStackTrace();
                     }
                     break;
-                 
-            // Add more switch-case here for different functions of the server application (view users, etc). 
+
+                /**
+                 * add the schedule data using the DatabaseAccess instance.
+                 */
+                case "ADD_SCHEDULE": // Case to handle adding a new delivery schedule.
+                    mdhs.DeliverySchedule deliverySchedule = (mdhs.DeliverySchedule) in.readObject(); // Read delivery object from the client.
+                    System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
+
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        boolean success = dbAccess.addAdminSchedule(deliverySchedule); // Attempt to add delivery schedule to the database.
+                        String response = success ? "Delivery Schedule processed successfully." : "Failed to process delivery schedule."; // Prepare response based on the operation's success
+                        out.writeObject(response); // Send the response back to the client to be displayed by the GUI.
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
+                        System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error.
+                        e.printStackTrace();
+                    }
+                    break;
+
+                /**
+                 * update the schedule data using the DatabaseAccess instance.
+                 */
+                case "UPDATE_SCHEDULE": // Case to handle updating a new delivery schedule.
+                    mdhs.DeliverySchedule deliverySchedule = (mdhs.DeliverySchedule) in.readObject(); // Read product object from the client.
+                    System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
+
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        boolean success = dbAccess.updateAdminSchedule(deliverySchedule); // Attempt to update delivery schedule to the database.
+                        String response = success ? "Delivery Schedule processed successfully." : "Failed to process delivery schedule."; // Prepare response based on the operation's success
+                        out.writeObject(response); // Send the response back to the client to be displayed by the GUI.
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
+                        System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error.
+                        e.printStackTrace();
+                    }
+                    break;
+
+                /**
+                 * View the deliveries using the DatabaseAccess instance by postcode.
+                 */
+                case "VIEW_DELIVERYBYPOSTCODE": // Case to handle viewing all deliveries.
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        List<mdhs.DeliverySchedule> deliverySchedules = dbAccess.getDetailsByPostcode(); // Retrieve all deliveries from the database.
+                        out.writeObject(deliverySchedules); // Send the list of deliveries back to the client.
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
+                        System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error.
+                        e.printStackTrace();
+                    }
+                    break;
+
+                /**
+                 * View the deliveries using the DatabaseAccess instance by day.
+                 */
+                case "VIEW_DELIVERYBYDAY": // Case to handle viewing all deliveries.
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        List<mdhs.DeliverySchedule> deliverySchedules = dbAccess.getDetailsByDay(); // Retrieve all deliveries from the database.
+                        out.writeObject(deliverySchedules); // Send the list of deliveries back to the client.
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
+                        System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error.
+                        e.printStackTrace();
+                    }
+                    break;
+
+                /**
+                 * add the order data using the DatabaseAccess instance.
+                 */
+                case "ADD_ORDER": // Case to handle adding a new order.
+                    mdhs.DeliverySchedule orders = (mdhs.DeliverySchedule) in.readObject(); // Read order object from the client.
+                    System.out.println("Received order data: " + orders); // Log the received order data.
+
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        boolean success = dbAccess.addOrder(orders); // Attempt to add order schedule to the database.
+                        String response = success ? "Order processed successfully." : "Failed to process order schedule."; // Prepare response based on the operation's success
+                        out.writeObject(response); // Send the response back to the client to be displayed by the GUI.
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
+                        System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error.
+                        e.printStackTrace();
+                    }
+                    break;
+
+
+
+
+
+                // Add more switch-case here for different functions of the server application (view users, etc).
                         
             }
             out.flush(); // Flush the output stream to ensure all data is sent
