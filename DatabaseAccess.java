@@ -155,23 +155,26 @@ public class DatabaseAccess implements AutoCloseable {
     }
 
 
-    //METHODS TO GET PRODUCTS BY NAME
-    public List<mdhs.Product> getProductsByName() throws SQLException {
-        String sql = "SELECT * FROM products where name =?"; // SQL query to select all products by name from the Product table.
+    /**
+     * Method to retrieve all products from the database.
+     */
+    public List<Product> getAllProducts() throws SQLException {
+        String sql = "SELECT * FROM Products"; // SQL query to select all products by name from the Products table.
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            List<mdhs.Product> products = new ArrayList<>(); // Create a list to store the retrieved products.
+            List<Product> products = new ArrayList<>(); // Create a list to store the retrieved products.
             while (rs.next()) { // Iterate through the result set.
                 /*
                  * Create a new Product object for each row in the result set and add it to the list.
                  */
-                products.add(new mdhs.Product(
-                        rs.getString("name"),
-                        rs.getString("unit"),
-                        rs.getInt("quantity"),
-                        rs.getDouble("price"),
-                        rs.getString("ingredients")
+                products.add(new Product(
+                        rs.getString("ProductID"),
+                        rs.getString("ProductName"),
+                        rs.getDouble("Price"),
+                        rs.getString("Ingredients"),
+                        rs.getString("Unit"),
+                        rs.getInt("Quantity")
                 ));
             }
             return products; // Return the list of products.
