@@ -79,6 +79,33 @@ public class DatabaseAccess implements AutoCloseable {
 
     //ADMIN FUNCTIONS
     //ADMIN UPDATED
+
+    /**
+     * Method to add a new product to the database.
+     */
+    public boolean addProduct(Product product) {
+        String sql = "INSERT INTO Products (ProductName, Price, Ingredients, Unit, Quantity) VALUES (?, ?, ?, ?, ?)"; // SQL statement to insert a new product into the Products table.
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            /**
+             * Set the values for the PreparedStatement from the product object.
+             */
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setString(3, product.getIngredients());
+            ps.setString(4, product.getUnit());
+            ps.setInt(5, product.getQuantity());
+
+            /**
+             * Execute the update and return true if the update affected at least one row.
+             */
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print stack trace if an SQLException occurs.
+            return false; // Return false if there is an SQL error.
+        }
+    }
+    
     // Add a schedule (admin function).
     public boolean addAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
         String sql = "INSERT INTO delivery_schedules (postcode, deliveryDay, deliveryCost) VALUES (?, ?, ?)"; // SQL statement to insert a new user into the Users table.
