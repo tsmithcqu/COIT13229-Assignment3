@@ -61,10 +61,13 @@ private void handleClient(Socket clientSocket) {
             String action = (String) in.readObject(); // Read the action string from the client.
 
             /**
-             * Process the customer data using the DatabaseAccess instance. 
              * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
              * Gen AI provided general guidance on using switch-case, rather than if-else. 
              */   
+
+            /**
+            * Process the customer data using the DatabaseAccess instance.
+            */
             switch (action) {
                 case "ADD_CUSTOMER": // Case to handle adding a new customer.
                 Customer customer = (Customer) in.readObject(); // Read customer object from the client.
@@ -79,7 +82,10 @@ private void handleClient(Socket clientSocket) {
                     e.printStackTrace();
                 }
                 break;
-
+            
+                /**
+                * View customers using the DatabaseAccess instance.
+                */
                 case "VIEW_CUSTOMERS": // Case to handle viewing all customers.
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         List<Customer> customers = dbAccess.getAllCustomers(); // Retrieve all customers from the database.
@@ -91,8 +97,27 @@ private void handleClient(Socket clientSocket) {
                     }
                     break; 
 
+                    /**
+                    * Process the products data using the DatabaseAccess instance.
+                    */
                     case "ADD_PRODUCT": // Case to handle adding a new product.
+                    Product product = (Product) in.readObject(); // Read product object from the client.
+                    System.out.println("Received product data: " + product); // Log the received product data.
 
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        boolean success = dbAccess.addProduct(product); // Attempt to add product to the database.
+                        String response = success ? "Product processed successfully." : "Failed to process product."; // Prepare response based on the operation's success
+                        out.writeObject(response); // Send the response back to the client to be displayed by the GUI. 
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue. 
+                        System.err.println("Database access error: " + e.getMessage()); // Display a message in the console that there is a database access error. 
+                        e.printStackTrace();
+                    }
+                    break;
+
+                    /**
+                    * View the products using the DatabaseAccess instance.
+                    */
                     case "VIEW_PRODUCTS": // Case to handle viewing all products.
 
                     // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
