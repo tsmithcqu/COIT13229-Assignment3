@@ -78,6 +78,7 @@ public class DatabaseAccess implements AutoCloseable {
     }
 
     //ADMIN FUNCTIONS
+    //ADMIN UPDATED
     // Add a schedule (admin function).
     public boolean addAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
         String sql = "INSERT INTO delivery_schedules (postcode, deliveryDay, deliveryCost) VALUES (?, ?, ?)"; // SQL statement to insert a new user into the Users table.
