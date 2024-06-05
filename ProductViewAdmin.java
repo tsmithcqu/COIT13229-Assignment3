@@ -2,6 +2,7 @@ package mhds;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * A GUI class extending JFrame for creating and handling the product management form.
@@ -12,7 +13,7 @@ public class ProductViewAdmin extends JFrame {
      * Declare components to be used in the form.
      */
     private JTextField nameField, priceField, ingredientsField, unitField, quantityField;
-    private JButton addButton, viewButton;
+    private JButton addButton, viewButton,orderButton;
     private Client client;
 
      /**
@@ -30,7 +31,7 @@ public class ProductViewAdmin extends JFrame {
      * Method to set up the form with labels, text fields, and buttons.
      */
      private void initializeComponents() {
-        setLayout(new GridLayout(6, 2));  // Set the layout of the JFrame to a grid layout with 6 rows and 2 columns.
+        setLayout(new GridLayout(8, 2));  // Set the layout of the JFrame to a grid layout with 6 rows and 2 columns.
 
         /**
          * Add product name label and text field to the form.
@@ -80,6 +81,11 @@ public class ProductViewAdmin extends JFrame {
         viewButton = new JButton("View Products");
         viewButton.addActionListener(e -> viewProducts()); // Set action listener to handle button click
         add(viewButton);
+
+         // Add button to place an order.
+         orderButton = new JButton("Place Order");
+         orderButton.addActionListener(e -> openOrderScreen()); // Set action listener to open order screen
+         add(orderButton);
     }
 
       /**
@@ -105,13 +111,34 @@ public class ProductViewAdmin extends JFrame {
          */
         client.sendProductData(product);
     }
-     
-     /**
-     * Method to handle the button click event for viewing products.
+
+    /**
+     * Method to handle the button click event for viewing registered products.
      */
     private void viewProducts() {
         // Implement view products functionality
-        
+        List<Product> productList = client.fetchAllProducts();
+        if (productList != null) {
+            StringBuilder sb = new StringBuilder();
+            for (Product product : productList) {
+                sb.append(product).append("\n");
+            }
+            JOptionPane.showMessageDialog(this, sb.toString(), "Registered Products", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to fetch products", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Method to open the order screen.
+     */
+    private void openOrderScreen() {
+        // Assuming you have a Customer object to pass to the mhds.OrderScreen
+        Customer customer = new Customer("Test Customer", "test@mail.com", "test1234", "123 Queen Street", "12345689");
+        SwingUtilities.invokeLater(() -> {
+            OrderScreen orderScreen = new OrderScreen(client, customer);
+            orderScreen.setVisible(true);
+        });
     }
 
      /**
