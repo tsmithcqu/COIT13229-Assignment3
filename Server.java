@@ -1,4 +1,4 @@
-package mdhs;
+package mhds;
 
 import java.io.*;
 import java.net.ServerSocket;
