@@ -1,4 +1,6 @@
-import mdhs.Product;
+package mhds;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Order {
     public Order(Customer customer) {
         this.customer = customer;
         this.products = new ArrayList<>();
+        this.totalPrice = 0.0;
     }
 
     public Customer getCustomer() {
