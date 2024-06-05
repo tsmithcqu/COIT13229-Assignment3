@@ -66,7 +66,7 @@ public class Client {
     }
      
     /**
-     Non-working code below. Un-comment as needed.
+     Non-working, future functionality below. Un-comment as needed.
     
       // Method to update delivery schedule data to the database.
     public void updateScheduleData(DeliverySchedule deliverySchedule) {
@@ -121,39 +121,3 @@ public class Client {
         }
     }
 }
-
-/**
-
-OLD CODE BELOW
-
-    public void createDeliverySchedule(DeliverySchedule schedule) {
-        new Thread(() -> handleOperation(schedule, "createDeliverySchedule")).start();
-    }
-
-    public void registerCustomer(Customer customer) {
-    new Thread(() -> handleOperation(customer, "createCustomer")).start();
-    }
-    */
-    
-    // ADD MORE AS NEEDED.
-    // For each of them you need to call the 'handleOperation' method. 
-
-    // Method to handle operations.
-    
-    /**
-    MOVING DATA STREAMING TO THE INDIVIDUAL CLASSES
-    
-    private void handleOperation(Object data, String operationType) {
-        try (
-            Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);  // Use the server details specified above. 
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream()); // Output stream to send data to the server.
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream()) // Input stream to read data from the server. 
-        ) {
-            out.writeObject(data);  // Serialise and send the data object to the server.
-            out.flush();  // Flush the stream to ensure all data is sent immediately.
-
-            Object response = in.readObject();  // Deserialise and read the response from the server.
-            
-            // The below will need to be change - it will need to be displayed to the GUI. Not sure how yet. 
-            System.out.println("Response from server: " + response);  // Output the response received from the server.
-            */
