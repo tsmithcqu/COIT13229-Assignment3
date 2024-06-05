@@ -9,11 +9,8 @@ import java.util.List;
 public class Server {
     private static final int PORT = 6969; // Port number where the server will listen for incoming connections from the Client.    
     
-    /**
+     /**
      * Main method to start the server. 
-     * Gen AI provided general guidance on this method of starting the server. 
-     * The method used in Tyson's Assignment 2 was originally used, however during testing, it would have trouble starting in different versions of Netbeans and different computing hardware. 
-     * Gen AI provided guidance that this method could be used, and it appeared to work across different Netbeans versions and computers. 
      */
     public static void main(String[] args) {
         new Server().startServer(); // Create a server instance and start it. 
@@ -130,8 +127,9 @@ private void handleClient(Socket clientSocket) {
                     break;
 
                 /**
-                 * add the schedule data using the DatabaseAccess instance.
-                 */
+                Non-functioning, future functionality code below. Uncomment as needed. 
+                    
+                 // add the schedule data using the DatabaseAccess instance.
                 case "ADD_SCHEDULE": // Case to handle adding a new delivery schedule.
                     DeliverySchedule deliverySchedule = (DeliverySchedule) in.readObject(); // Read delivery object from the client.
                     System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
@@ -147,9 +145,8 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-                /**
-                 * update the schedule data using the DatabaseAccess instance.
-                 */
+
+                 // update the schedule data using the DatabaseAccess instance.
                 case "UPDATE_SCHEDULE": // Case to handle updating a new delivery schedule.
                     DeliverySchedule deliverySchedule = (DeliverySchedule) in.readObject(); // Read product object from the client.
                     System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
@@ -165,9 +162,8 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-                /**
-                 * View the deliveries using the DatabaseAccess instance by postcode.
-                 */
+
+                 // View the deliveries using the DatabaseAccess instance by postcode.
                 case "VIEW_DELIVERYBYPOSTCODE": // Case to handle viewing all deliveries.
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         List<DeliverySchedule> deliverySchedules = dbAccess.getDetailsByPostcode(); // Retrieve all deliveries from the database.
@@ -179,9 +175,8 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-                /**
-                 * View the deliveries using the DatabaseAccess instance by day.
-                 */
+
+                 // View the deliveries using the DatabaseAccess instance by day.
                 case "VIEW_DELIVERYBYDAY": // Case to handle viewing all deliveries.
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         List<DeliverySchedule> deliverySchedules = dbAccess.getDetailsByDay(); // Retrieve all deliveries from the database.
@@ -193,9 +188,8 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-                /**
-                 * add the order data using the DatabaseAccess instance.
-                 */
+                    
+                 // add the order data using the DatabaseAccess instance.
                 case "ADD_ORDER": // Case to handle adding a new order.
                     Order orders = (Order) in.readObject(); // Read order object from the client.
                     System.out.println("Received order data: " + orders); // Log the received order data.
@@ -211,9 +205,7 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-
-
-
+                    */
 
                 // Add more switch-case here for different functions of the server application (view users, etc).
                         
