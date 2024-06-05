@@ -34,6 +34,7 @@ public class Server {
                      * This method of thread handling was pulled from Tyson's Assignment 1 assignment. 
                      * The method of having ClientHandler extend Thread was not functioning correctly, and was dropping the connection between Client and Server.
                      * Gen AI originally provided assistance with this in Assignment 1. 
+                     * No code was developed by Gen AI.
                      */
                     new Thread(() -> handleClient(clientSocket)).start();
                 } catch (IOException e) {
@@ -60,10 +61,11 @@ private void handleClient(Socket clientSocket) {
             /**
              * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
              * Gen AI provided general guidance on using switch-case, rather than if-else. 
+             * No code was developed by Gen AI. 
              */   
 
             /**
-            * Process the customer data using the DatabaseAccess instance.
+            * Add the customer using the DatabaseAccess instance.
             */
             switch (action) {
                 case "ADD_CUSTOMER": // Case to handle adding a new customer.
@@ -95,7 +97,7 @@ private void handleClient(Socket clientSocket) {
                     break; 
 
                     /**
-                    * Process the products data using the DatabaseAccess instance.
+                    * Add the products data using the DatabaseAccess instance.
                     */
                     case "ADD_PRODUCT": // Case to handle adding a new product.
                     Product product = (Product) in.readObject(); // Read product object from the client.
@@ -126,6 +128,9 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
+                    /**
+                    * Add the schedule using the DatabaseAccess instance.
+                    */
                     case "ADD_SCHEDULE":
                     DeliverySchedule schedule = (DeliverySchedule) in.readObject();
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
@@ -138,6 +143,9 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
+                    /**
+                    * View the schedule using the DatabaseAccess instance.
+                    */
                     case "VIEW_SCHEDULES":
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         List<DeliverySchedule> schedules = dbAccess.getAllSchedules();
