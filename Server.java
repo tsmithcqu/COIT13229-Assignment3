@@ -220,6 +220,15 @@ private void handleClient(Socket clientSocket) {
             }
             out.flush(); // Flush the output stream to ensure all data is sent
 
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error handling client data: " + e.getMessage()); // Display any errors during communication.
+            e.printStackTrace();
+        } finally {
+            try {
+                clientSocket.close(); // Close the client socket to free resources.
+            } catch (IOException e) {
+                System.err.println("Error closing client socket: " + e.getMessage()); // Display an error if closing the socket fails.
+            }
         }
     }
 }
