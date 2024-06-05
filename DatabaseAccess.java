@@ -1,9 +1,7 @@
 package mhds;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -110,7 +108,7 @@ public class DatabaseAccess implements AutoCloseable {
     }
     
     // Add a schedule (admin function).
-    public boolean addAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
+    public boolean addAdminSchedule(DeliverySchedule DeliverySchedule) {
         String sql = "INSERT INTO delivery_schedules (postcode, deliveryDay, deliveryCost) VALUES (?, ?, ?)"; // SQL statement to insert a new user into the Users table.
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             /*
@@ -133,7 +131,7 @@ public class DatabaseAccess implements AutoCloseable {
 
 
     // Update a schedule (admin function).
-    public boolean updateAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
+    public boolean updateAdminSchedule(DeliverySchedule DeliverySchedule) {
         String sql = "UPDATE delivery_schedules SET postcode = ?, delivery_cost = ? WHERE delivery_day = ? "; // SQL statement to insert a new user into the Users table.
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             /*
@@ -169,7 +167,6 @@ public class DatabaseAccess implements AutoCloseable {
                  * Create a new Product object for each row in the result set and add it to the list.
                  */
                 products.add(new Product(
-                        rs.getString("ProductID"),
                         rs.getString("ProductName"),
                         rs.getDouble("Price"),
                         rs.getString("Ingredients"),
@@ -183,44 +180,44 @@ public class DatabaseAccess implements AutoCloseable {
 
 
     //METHODS TO GET DELIVERIES BY POSTCODE
-    public List<mdhs.DeliverySchedule> getDetailsByPostcode() throws SQLException {
+    public List<DeliverySchedule> getDetailsByPostcode() throws SQLException {
         String sql = "SELECT * FROM delivery_schedules where postcode =?"; // SQL query to select all delivery schedules by name from the delivery_schedules table.
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            List<mdhs.Product> postcodes = new ArrayList<>(); // Create a list to store the retrieved postcodes.
+            List<DeliverySchedule> deliverySchedules = new ArrayList<>(); // Create a list to store the retrieved postcodes.
             while (rs.next()) { // Iterate through the result set.
                 /*
                  * Create a new delivery schedules object for each row in the result set and add it to the list.
                  */
-                postcodes.add(new mdhs.Product(
+                deliverySchedules.add(new DeliverySchedule(
                         rs.getString("postcode"),
-                        rs.ggetString("deliveryDay"),
+                        rs.getString("deliveryDay"),
                         rs.getDouble("deliveryCost")
                 ));
             }
-            return postcodes; // Return the list of delivery schedules by postcode.
+            return deliverySchedules; // Return the list of delivery schedules by postcode.
         }
     }
 
     //METHODS TO GET DETAILS BY DAY
-    public List<mdhs.DeliverySchedule> getDetailsByDay() throws SQLException {
+    public List<DeliverySchedule> getDetailsByDay() throws SQLException {
         String sql = "SELECT * FROM delivery_schedules where delivery_day =?"; // SQL query to select all delivery schedules by name from the delivery_schedules table.
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            List<mdhs.Product> postcodes = new ArrayList<>(); // Create a list to store the retrieved postcodes.
+            List<DeliverySchedule> deliverySchedules = new ArrayList<>(); // Create a list to store the retrieved postcodes.
             while (rs.next()) { // Iterate through the result set.
                 /*
                  * Create a new delivery schedules object for each row in the result set and add it to the list.
                  */
-                postcodes.add(new mdhs.Product(
+                deliverySchedules.add(new DeliverySchedule(
                         rs.getString("postcode"),
-                        rs.ggetString("deliveryDay"),
+                        rs.getString("deliveryDay"),
                         rs.getDouble("deliveryCost")
                 ));
             }
-            return postcodes; // Return the list of delivery schedules by postcode.
+            return deliverySchedules; // Return the list of delivery schedules by postcode.
         }
     }
 
@@ -231,8 +228,11 @@ public class DatabaseAccess implements AutoCloseable {
             /*
              * Set the values for the PreparedStatement from the order object.
              */
-            ps.setString(1, order.getProductID());
-            ps.setString(2, order.getQuantity());
+            for (Product product : order.getProducts()) {
+                ps.setString(1, product.getName());
+                ps.setInt(2, product.getQuantity());
+                ps.addBatch();
+            }
 
             /*
              * Execute the update and return true if the update affected at least one row.
