@@ -25,7 +25,7 @@ public class ProductViewAdmin extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation to exit the application.
         setSize(400, 400); // Set the initial size of the frame.
         setLocationRelativeTo(null); // Center the frame on the screen.
-
+    }
         /**
      * Method to set up the form with labels, text fields, and buttons.
      */
@@ -104,6 +104,14 @@ public class ProductViewAdmin extends JFrame {
          * Use the client to send the product data for registration.
          */
         client.sendProductData(product);
+    }
+     
+     /**
+     * Method to handle the button click event for viewing products.
+     */
+    private void viewProducts() {
+        // Implement view products functionality
+        
     }
 
      /**
