@@ -34,5 +34,36 @@ public class ProductView extends JFrame {
         add(viewButton);
     }
 
+    /**
+     * Method to handle the button click event for viewing registered products.
+     */
+    private void viewProducts() {
+        // Fetch all products using the client
+        java.util.List<Product> products = client.fetchAllProducts();
+        if (products != null) {
+            // Display the fetched products in a message dialog
+            StringBuilder sb = new StringBuilder("Registered Products:\n");
+            for (Product product : products) {
+                sb.append("Name: ").append(product.getName())
+                  .append(", Price: ").append(product.getPrice())
+                  .append(", Ingredients: ").append(product.getIngredients())
+                  .append(", Unit: ").append(product.getUnit())
+                  .append(", Quantity: ").append(product.getQuantity())
+                  .append("\n");
+            }
+            JOptionPane.showMessageDialog(this, sb.toString(), "Product List", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to fetch products", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-// to do - logic
+    /**
+     * Main method to run the GUI.
+     */
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            ProductView frame = new ProductView(); // Create an instance of the GUI frame
+            frame.setVisible(true); // Make the frame visible
+        });
+    }
+}
