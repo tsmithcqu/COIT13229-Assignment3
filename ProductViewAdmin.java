@@ -106,12 +106,26 @@ public class ProductViewAdmin extends JFrame {
         client.sendProductData(product);
     }
      
-     /**
-     * Method to handle the button click event for viewing products.
+    /**
+     * Method to handle the button click event for viewing registered products.
      */
     private void viewProducts() {
-        // Implement view products functionality
-        
+        /**
+         * Fetch all products using the client.
+         */
+        java.util.List<Product> products = client.fetchAllProducts();
+        if (products != null) {
+            /**
+             * Display the fetched products in a message dialog.
+             */
+            StringBuilder sb = new StringBuilder();
+            for (Product product : products) {
+                sb.append(product).append("\n");
+            }
+            JOptionPane.showMessageDialog(this, sb.toString(), "Registered Products", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to fetch products", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
      /**
