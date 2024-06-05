@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Class to handle database operations, implements AutoCloseable to ensure resources are freed properly.
  * Gen AI provided guidance on implementing AutoCloseable, as system resources were not being freed previously. 
+ * No code was developed by Gen AI. 
  */
 public class DatabaseAccess implements AutoCloseable {
     private Connection connection; // Connection object to manage the database connection.
@@ -26,6 +27,7 @@ public class DatabaseAccess implements AutoCloseable {
      /**
      * New methods will need to be created for different functions of the application. 
      * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
+     * No code was developed by Gen AI. 
      */
 
      /**
@@ -248,10 +250,6 @@ public class DatabaseAccess implements AutoCloseable {
 
     /**
 
-
-
-     // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database.
-
     
     // Add more database unteractions here. Such as viewing etc. 
 
@@ -266,10 +264,3 @@ public class DatabaseAccess implements AutoCloseable {
     }
 }
 
-
-/**
-OLD CODE BELOW. Leaving it here to grab things from if needed. 
-The below needs to be completely overhauled. Currently not functioning.
-    */
-
-    // TODO add Delete a schedule (admin function).
