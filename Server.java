@@ -126,6 +126,28 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
+                    case "ADD_SCHEDULE":
+                    DeliverySchedule schedule = (DeliverySchedule) in.readObject();
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        boolean success = dbAccess.addAdminSchedule(schedule);
+                        String response = success ? "Schedule processed successfully." : "Failed to process schedule.";
+                        out.writeObject(response);
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                    break;
+
+                    case "VIEW_SCHEDULES":
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        List<DeliverySchedule> schedules = dbAccess.getAllSchedules();
+                        out.writeObject(schedules);
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                    break;
+
                 /**
                 Non-functioning, future functionality code below. Uncomment as needed. 
                     
