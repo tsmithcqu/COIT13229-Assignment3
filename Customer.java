@@ -49,4 +49,18 @@ public class Customer implements Serializable {
     public String getAddress() {
         return address; // Return the customer's address.
     }
+
+     /**
+     * Overridden toString method for printing and logging of customer data
+     */
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='[PROTECTED]'" + // Masking the password for security in logs.
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }
