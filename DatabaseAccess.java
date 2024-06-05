@@ -168,7 +168,7 @@ public class DatabaseAccess implements AutoCloseable {
                  * Create a new Product object for each row in the result set and add it to the list.
                  */
                 products.add(new Product(
-                        rs.getString("ProductID"),
+                        rs.getInt("ProductID"),
                         rs.getString("ProductName"),
                         rs.getDouble("Price"),
                         rs.getString("Ingredients"),
