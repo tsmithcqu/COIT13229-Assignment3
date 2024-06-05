@@ -47,6 +47,6 @@ public class Customer implements Serializable {
         return phoneNumber; // Return the customer's phone number.
     }
     public String getAddress() {
-        return address;
+        return address; // Return the customer's address.
     }
 }
