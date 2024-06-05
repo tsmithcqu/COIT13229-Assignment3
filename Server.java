@@ -1,10 +1,13 @@
 package mdhs;
 
+import mhds.*;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.List;
+
 
 public class Server {
     private static final int PORT = 6969; // Port number where the server will listen for incoming connections from the Client.    
@@ -151,7 +154,7 @@ private void handleClient(Socket clientSocket) {
                  * update the schedule data using the DatabaseAccess instance.
                  */
                 case "UPDATE_SCHEDULE": // Case to handle updating a new delivery schedule.
-                    DeliverySchedule updateSchedule = (DeliverySchedule) in.readObject(); // Read product object from the client. // Read product object from the client.
+                    DeliverySchedule updateSchedule = (DeliverySchedule) in.readObject(); // Read product object from the client.
                     System.out.println("Received delivery data: " + updateSchedule); // Log the received delivery data.
 
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
@@ -202,7 +205,7 @@ private void handleClient(Socket clientSocket) {
 
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         boolean success = dbAccess.addOrder(orders); // Attempt to add order schedule to the database.
-                        String response = success ? "Order processed successfully." : "Failed to process order schedule."; // Prepare response based on the operation's success
+                        String response = success ? "mhds.Order processed successfully." : "Failed to process order schedule."; // Prepare response based on the operation's success
                         out.writeObject(response); // Send the response back to the client to be displayed by the GUI.
                     } catch (SQLException e) {
                         out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
@@ -220,6 +223,10 @@ private void handleClient(Socket clientSocket) {
             }
             out.flush(); // Flush the output stream to ensure all data is sent
 
-        }
+        } catch (IOException e) {
+        throw new RuntimeException(e);
+    } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
     }
+}
 }
