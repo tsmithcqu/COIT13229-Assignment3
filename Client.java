@@ -99,7 +99,8 @@ public class Client {
      
          /**
          * Establish a connection with the server and open streams.
-         * Gen AI provided general guidance on the usage of the generic type parameter <T> for the expandabilitiy and reusability of the sendRequest method. 
+         * Gen AI provided general guidance on the usage of the generic type parameter <T> for the expandabilitiy and reusability of the sendRequest method.
+         * No code was developed by Gen AI. 
          */
      private <T> T sendRequest(String action, Object data) {
         try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);  // Connect to the server at the specified address and port.
