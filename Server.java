@@ -151,11 +151,11 @@ private void handleClient(Socket clientSocket) {
                  * update the schedule data using the DatabaseAccess instance.
                  */
                 case "UPDATE_SCHEDULE": // Case to handle updating a new delivery schedule.
-                    DeliverySchedule deliverySchedule = (DeliverySchedule) in.readObject(); // Read product object from the client.
-                    System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
+                    DeliverySchedule updateSchedule = (DeliverySchedule) in.readObject(); // Read product object from the client. // Read product object from the client.
+                    System.out.println("Received delivery data: " + updateSchedule); // Log the received delivery data.
 
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
-                        boolean success = dbAccess.updateAdminSchedule(deliverySchedule); // Attempt to update delivery schedule to the database.
+                        boolean success = dbAccess.updateAdminSchedule(updateSchedule); // Attempt to update delivery schedule to the database.
                         String response = success ? "Delivery Schedule processed successfully." : "Failed to process delivery schedule."; // Prepare response based on the operation's success
                         out.writeObject(response); // Send the response back to the client to be displayed by the GUI.
                     } catch (SQLException e) {
