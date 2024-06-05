@@ -65,4 +65,19 @@ public class Product implements Serializable {
         return quantity;
     }
 
+     /**
+     * Overridden toString method for printing and logging of product data.
+     */
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", ingredients='" + ingredients + '\'' +
+                ", unit='" + unit + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
+
 }
