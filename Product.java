@@ -65,6 +65,8 @@ public class Product implements Serializable {
     public int getQuantity() {
         return quantity;
     }
+     public void setQuantity(int quantity) {
+    }
 
      /**
      * Overridden toString method for printing and logging of product data.

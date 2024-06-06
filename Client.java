@@ -78,9 +78,10 @@ public class Client {
         return sendRequest("VIEW_DELIVERYBYDAY", null); // Send request to view deliveries by day.
     }
 
-     // Method to send delivery schedule data to the database.
-    public void sendOrderData(Order orders) {
+
+    public boolean sendOrder(Order orders) {
         sendRequest("ADD_ORDER", orders); // Send request to add a delivery schedule.
+        return false;
     }
 
     */
@@ -114,4 +115,4 @@ public class Client {
             return null; // Return null in case of an error.
         }
     }
-}
+
