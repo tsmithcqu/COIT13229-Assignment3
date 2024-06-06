@@ -9,22 +9,22 @@ import java.io.Serializable;
  */
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L; // UID for serialising, ensures class structure consistency during deserialisation.
-    private int productId;
-    private String name;
-    private double price;
-    private String ingredients;
-    private String unit;
-    private int quantity;
+    private int productId;         // Product ID.
+    private String name;           // Product name. 
+    private double price;          // Product price. 
+    private String ingredients;    // Product ingredients. 
+    private String unit;           // Product unit. 
+    private int quantity;          // Product quantity. 
 
     /**
      * Constructor to initialise a new product.
      */
     public Product(String name, double price, String ingredients, String unit, int quantity) {
-        this.name = name;
-        this.price = price;
-        this.ingredients = ingredients;
-        this.unit = unit;
-        this.quantity = quantity;
+        this.name = name;                    // Initialise the name field. 
+        this.price = price;                  // Initialise the price field. 
+        this.ingredients = ingredients;      // Initialise the ingredients field. 
+        this.unit = unit;                    // Initialise the unit field. 
+        this.quantity = quantity;            // Initialise the quantity field. 
     }
 
     /**
@@ -43,27 +43,27 @@ public class Product implements Serializable {
      * Getters for product properties.
      */
     public int getProductId() {
-        return productId;
+        return productId; // Return the product ID. 
     }
 
     public String getName() {
-        return name;
+        return name;    // Return the name. 
     }
 
     public double getPrice() {
-        return price;
+        return price;    // Return the price. 
     }
 
     public String getIngredients() {
-        return ingredients;
+        return ingredients;    // Return the ingredients. 
     }
 
     public String getUnit() {
-        return unit;
+        return unit;    // Return the unit. 
     }
 
     public int getQuantity() {
-        return quantity;
+        return quantity;    // Return the quantity. 
     }
      public void setQuantity(int quantity) {
     }
