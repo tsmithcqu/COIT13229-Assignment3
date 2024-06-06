@@ -44,13 +44,6 @@ public class Client {
         return sendRequest("VIEW_PRODUCTS", null); // Send request to view all products.
     }
 
-    /**
-     * Method to send delivery schedule data to the database.
-     */
-    public void sendScheduleData(DeliverySchedule deliverySchedule) {
-        sendRequest("ADD_SCHEDULE", deliverySchedule); // Send request to add a delivery schedule.
-    }
-
      /**
      * Method to send delivery schedule data to the server.
      */
