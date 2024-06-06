@@ -35,7 +35,7 @@ public class AdminDashboard extends JFrame {
 
         // Initialise and add manage schedules button.
         manageSchedulesButton = new JButton("Manage Delivery Schedules");
-        manageSchedulesButton.addActionListener(e -> openDeliveryScheduleAdmin()); // Add action listener to open delivery schedule management screen.
+        manageSchedulesButton.addActionListener(e -> openDeliveryScheduleViewAdmin()); // Add action listener to open delivery schedule management screen.
         add(manageSchedulesButton); // Add button to the frame.
     }
 
