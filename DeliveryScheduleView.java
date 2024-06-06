@@ -1,70 +1,49 @@
-
-
-/**
-
-Old code created by Carlos. May need to be redone. 
-
+package mhds;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.List;
 
+/**
+ * A GUI class extending JFrame for viewing registered delivery schedules.
+ */
 public class DeliveryScheduleView extends JFrame {
+    private JButton viewButton;
+    private Client client;
 
+    /**
+     * Constructor initialises the GUI.
+     */
     public DeliveryScheduleView() {
-        setTitle("Delivery Schedule View");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        JTable scheduleTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(scheduleTable);
-        panel.add(scrollPane, BorderLayout.CENTER);
-
-        loadScheduleData(scheduleTable);
-
-        add(panel);
+        super("View Delivery Schedules"); // Set the title of the JFrame window
+        this.client = new Client(); // Create a new instance of Client for communication
+        initializeComponents(); // Call the method to set up the GUI components
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation to exit the application
+        setSize(400, 400); // Set the initial size of the frame
+        setLocationRelativeTo(null); // Center the frame on the screen
     }
 
-    private void loadScheduleData(JTable scheduleTable) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM delivery_schedules");
+    /**
+     * Method to set up the form with a button to view delivery schedules.
+     */
+    private void initializeComponents() {
+        setLayout(new FlowLayout());  // Use FlowLayout for simple arrangement of components
 
-            String[] columnNames = {"Postcode", "Delivery Day", "Delivery Cost"};
-            Object[][] data = new Object[50][3];
-            int rowCount = 0;
-
-            while (resultSet.next()) {
-                data[rowCount][0] = resultSet.getString("postcode");
-                data[rowCount][1] = resultSet.getString("delivery_day");
-                data[rowCount][2] = resultSet.getDouble("delivery_cost");
-                rowCount++;
-            }
-
-            scheduleTable.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
-            resultSet.close();
-            statement.close();
-            connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Button to view the registered delivery schedules
+        viewButton = new JButton("View Delivery Schedules");
+        viewButton.addActionListener(e -> viewSchedules()); // Set action listener to handle button click
+        add(viewButton);
     }
 
+// implement the logic here. 
+
+    /**
+     * Main method to run the GUI.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            DeliveryScheduleView deliveryScheduleView = new DeliveryScheduleView();
-            deliveryScheduleView.setVisible(true);
+            DeliveryScheduleView frame = new DeliveryScheduleView(); // Create an instance of the GUI frame
+            frame.setVisible(true); // Make the frame visible
         });
     }
 }
-
-
-*/
