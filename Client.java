@@ -86,10 +86,7 @@ public class Client {
 
     */
 
-
-     // Tyson to do: Build out the ability for admins to add products to the database, and list products from the database. 
-
-     // ADD MORE FUNCTIONS HERE.
+     // Add more functionality here.
      
          /**
          * Establish a connection with the server and open streams.
