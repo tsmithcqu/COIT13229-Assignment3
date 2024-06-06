@@ -1,6 +1,4 @@
-package mdhs;
-
-import mhds.*;
+package mhds;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -8,15 +6,11 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.List;
 
-
 public class Server {
     private static final int PORT = 6969; // Port number where the server will listen for incoming connections from the Client.    
     
-    /**
+     /**
      * Main method to start the server. 
-     * Gen AI provided general guidance on this method of starting the server. 
-     * The method used in Tyson's Assignment 2 was originally used, however during testing, it would have trouble starting in different versions of Netbeans and different computing hardware. 
-     * Gen AI provided guidance that this method could be used, and it appeared to work across different Netbeans versions and computers. 
      */
     public static void main(String[] args) {
         new Server().startServer(); // Create a server instance and start it. 
@@ -40,6 +34,7 @@ public class Server {
                      * This method of thread handling was pulled from Tyson's Assignment 1 assignment. 
                      * The method of having ClientHandler extend Thread was not functioning correctly, and was dropping the connection between Client and Server.
                      * Gen AI originally provided assistance with this in Assignment 1. 
+                     * No code was developed by Gen AI.
                      */
                     new Thread(() -> handleClient(clientSocket)).start();
                 } catch (IOException e) {
@@ -66,10 +61,11 @@ private void handleClient(Socket clientSocket) {
             /**
              * Gen AI suggested using Boolean for database interactions, to provide a simpler way of identifying if the database action was performed. 
              * Gen AI provided general guidance on using switch-case, rather than if-else. 
+             * No code was developed by Gen AI. 
              */   
 
             /**
-            * Process the customer data using the DatabaseAccess instance.
+            * Add the customer using the DatabaseAccess instance.
             */
             switch (action) {
                 case "ADD_CUSTOMER": // Case to handle adding a new customer.
@@ -101,7 +97,7 @@ private void handleClient(Socket clientSocket) {
                     break; 
 
                     /**
-                    * Process the products data using the DatabaseAccess instance.
+                    * Add the products data using the DatabaseAccess instance.
                     */
                     case "ADD_PRODUCT": // Case to handle adding a new product.
                     Product product = (Product) in.readObject(); // Read product object from the client.
@@ -132,9 +128,38 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
+                    /**
+                    * Add the schedule using the DatabaseAccess instance.
+                    */
+                    case "ADD_SCHEDULE":
+                    DeliverySchedule schedule = (DeliverySchedule) in.readObject();
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        boolean success = dbAccess.addSchedule(schedule);
+                        String response = success ? "Schedule processed successfully." : "Failed to process schedule.";
+                        out.writeObject(response);
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                    break;
+
+                    /**
+                    * View the schedule using the DatabaseAccess instance.
+                    */
+                    case "VIEW_SCHEDULES":
+                    try (DatabaseAccess dbAccess = new DatabaseAccess()) {
+                        List<DeliverySchedule> schedules = dbAccess.getAllSchedules();
+                        out.writeObject(schedules);
+                    } catch (SQLException e) {
+                        out.writeObject("Database error: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                    break;
+
                 /**
-                 * add the schedule data using the DatabaseAccess instance.
-                 */
+                Non-functioning, future functionality code below. Uncomment as needed. 
+                    
+                 // add the schedule data using the DatabaseAccess instance.
                 case "ADD_SCHEDULE": // Case to handle adding a new delivery schedule.
                     DeliverySchedule deliverySchedule = (DeliverySchedule) in.readObject(); // Read delivery object from the client.
                     System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
@@ -150,15 +175,14 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-                /**
-                 * update the schedule data using the DatabaseAccess instance.
-                 */
+
+                 // update the schedule data using the DatabaseAccess instance.
                 case "UPDATE_SCHEDULE": // Case to handle updating a new delivery schedule.
-                    DeliverySchedule updateSchedule = (DeliverySchedule) in.readObject(); // Read product object from the client.
-                    System.out.println("Received delivery data: " + updateSchedule); // Log the received delivery data.
+                    DeliverySchedule deliverySchedule = (DeliverySchedule) in.readObject(); // Read product object from the client.
+                    System.out.println("Received delivery data: " + deliverySchedule); // Log the received delivery data.
 
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
-                        boolean success = dbAccess.updateAdminSchedule(updateSchedule); // Attempt to update delivery schedule to the database.
+                        boolean success = dbAccess.updateAdminSchedule(deliverySchedule); // Attempt to update delivery schedule to the database.
                         String response = success ? "Delivery Schedule processed successfully." : "Failed to process delivery schedule."; // Prepare response based on the operation's success
                         out.writeObject(response); // Send the response back to the client to be displayed by the GUI.
                     } catch (SQLException e) {
@@ -168,9 +192,8 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-                /**
-                 * View the deliveries using the DatabaseAccess instance by postcode.
-                 */
+
+                 // View the deliveries using the DatabaseAccess instance by postcode.
                 case "VIEW_DELIVERYBYPOSTCODE": // Case to handle viewing all deliveries.
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         List<DeliverySchedule> deliverySchedules = dbAccess.getDetailsByPostcode(); // Retrieve all deliveries from the database.
@@ -182,9 +205,8 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-                /**
-                 * View the deliveries using the DatabaseAccess instance by day.
-                 */
+
+                 // View the deliveries using the DatabaseAccess instance by day.
                 case "VIEW_DELIVERYBYDAY": // Case to handle viewing all deliveries.
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         List<DeliverySchedule> deliverySchedules = dbAccess.getDetailsByDay(); // Retrieve all deliveries from the database.
@@ -196,16 +218,15 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-                /**
-                 * add the order data using the DatabaseAccess instance.
-                 */
+                    
+                 // add the order data using the DatabaseAccess instance.
                 case "ADD_ORDER": // Case to handle adding a new order.
                     Order orders = (Order) in.readObject(); // Read order object from the client.
                     System.out.println("Received order data: " + orders); // Log the received order data.
 
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
                         boolean success = dbAccess.addOrder(orders); // Attempt to add order schedule to the database.
-                        String response = success ? "mhds.Order processed successfully." : "Failed to process order schedule."; // Prepare response based on the operation's success
+                        String response = success ? "Order processed successfully." : "Failed to process order schedule."; // Prepare response based on the operation's success
                         out.writeObject(response); // Send the response back to the client to be displayed by the GUI.
                     } catch (SQLException e) {
                         out.writeObject("Database error: " + e.getMessage()); // Send an error message if there is a database issue.
@@ -214,19 +235,22 @@ private void handleClient(Socket clientSocket) {
                     }
                     break;
 
-
-
-
+                    */
 
                 // Add more switch-case here for different functions of the server application (view users, etc).
                         
             }
             out.flush(); // Flush the output stream to ensure all data is sent
 
-        } catch (IOException e) {
-        throw new RuntimeException(e);
-    } catch (ClassNotFoundException e) {
-        throw new RuntimeException(e);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error handling client data: " + e.getMessage()); // Display any errors during communication.
+            e.printStackTrace();
+        } finally {
+            try {
+                clientSocket.close(); // Close the client socket to free resources.
+            } catch (IOException e) {
+                System.err.println("Error closing client socket: " + e.getMessage()); // Display an error if closing the socket fails.
+            }
+        }
     }
-}
 }

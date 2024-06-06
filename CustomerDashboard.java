@@ -1,76 +1,77 @@
-import mhds.Client;
-import mhds.Customer;
-import mhds.OrderScreen;
+package mhds;
 
 import javax.swing.*;
 import java.awt.*;
 
-        /**
-        * CustomerDashboard class to create the customer dashboard GUI.
-        */
+/**
+ * Customer dashboard providing access to registration and product viewing functionalities.
+ */
 public class CustomerDashboard extends JFrame {
-    private Client client;
-    private Customer customer;
+    // Declare buttons for different functionalities
+    private JButton registrationButton, productViewButton, viewSchedulesButton;
 
-            /**
-             * Constructor initialises the GUI and sets up the client and customer instances.
-             */
-    public CustomerDashboard(Client client, Customer customer) {
-        setTitle("Maleny Dairy to Home Service");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-
-        JLabel headerLabel = new JLabel("Maleny Dairy to Home Service", JLabel.CENTER);
-        headerLabel.setOpaque(true);
-        headerLabel.setBackground(Color.LIGHT_GRAY);
-        headerLabel.setPreferredSize(new Dimension(550, 40));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 3;
-        mainPanel.add(headerLabel, gbc);
-
-        JButton btnViewProducts = new JButton("<html>View Products<br>(ProductView.java)</html>");
-        JButton btnViewDeliverySchedule = new JButton("<html>View Delivery Schedule<br>(DeliveryScheduleView.java)</html>");
-        JButton btnPlaceOrder = new JButton("<html>Place mhds.Order<br>(mhds.OrderScreen.java)</html>");
-
-        btnViewProducts.setPreferredSize(new Dimension(250, 50));
-        btnViewDeliverySchedule.setPreferredSize(new Dimension(250, 50));
-        btnPlaceOrder.setPreferredSize(new Dimension(250, 50));
-
-        gbc.gridwidth = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        mainPanel.add(btnViewProducts, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        mainPanel.add(btnViewDeliverySchedule, gbc);
-
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        mainPanel.add(btnPlaceOrder, gbc);
-
-        // Set action listeners for the buttons.
-        btnViewProducts.addActionListener(e -> new ProductView().setVisible(true));
-        btnViewDeliverySchedule.addActionListener(e -> new DeliveryScheduleView().setVisible(true));
-        btnPlaceOrder.addActionListener(e -> new OrderScreen(client,customer).setVisible(true));
-
-        add(mainPanel);
+    public CustomerDashboard() {
+        super("Customer Dashboard"); // Set the title of the JFrame.
+        initializeComponents(); // Call method to initialise GUI components.
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set the default close operation to dispose the frame on close.
+        setSize(300, 200); // Set the size of the frame.
+        setLocationRelativeTo(null); // Center the frame on the screen.
     }
 
+    /**
+     * Method to initialise the GUI components.
+     */
+    private void initializeComponents() {
+        setLayout(new FlowLayout()); // Set the layout manager to FlowLayout.
+
+        // Initialise and add registration button.
+        registrationButton = new JButton("Register");
+        registrationButton.addActionListener(e -> openRegistrationScreen()); // Add action listener to open registration screen.
+        add(registrationButton); // Add button to the frame.
+
+        // Initialise and add product view button.
+        productViewButton = new JButton("View Products"); 
+        productViewButton.addActionListener(e -> openProductView()); // Add action listener to open product view.
+        add(productViewButton); // Add button to the frame.
+
+        // Initialise and add view schedules button.
+        viewSchedulesButton = new JButton("View Delivery Schedules");
+        viewSchedulesButton.addActionListener(e -> openDeliveryScheduleView()); // Add action listener to open delivery schedule view
+        add(viewSchedulesButton); // Add button to the frame
+    }
+
+    /**
+     * Method to open the registration screen
+     */
+    private void openRegistrationScreen() {
+        RegistrationScreen registrationScreen = new RegistrationScreen();
+        registrationScreen.setVisible(true);
+    }
+
+    /**
+     * Method to open the product view screen
+     */
+    private void openProductView() {
+        ProductView productView = new ProductView();
+        productView.setVisible(true);
+    }
+
+    /**
+     * Method to open the delivery schedule view screen
+     */
+    private void openDeliveryScheduleView() {
+        DeliveryScheduleView deliveryScheduleView = new DeliveryScheduleView(); // Create an instance of DeliveryScheduleView
+        deliveryScheduleView.setVisible(true); // Make the delivery schedule view screen visible
+    }
+
+    /**
+     * Main method to run the GUI
+     */
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Client client = new Client();
-            Customer customer = new Customer("Test", "test@mail.com", "test1234", "123 Back Street", "1234567");
-            CustomerDashboard customerDashboard = new CustomerDashboard(client, customer);
-            customerDashboard.setVisible(true);
+        SwingUtilities.invokeLater(() -> { // Ensure the GUI creation happens on the Event Dispatch Thread
+            CustomerDashboard frame = new CustomerDashboard(); // Create an instance of CustomerDashboard
+            frame.setVisible(true); // Make the customer dashboard visible
         });
     }
+    
 }

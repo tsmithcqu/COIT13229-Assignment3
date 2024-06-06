@@ -1,62 +1,47 @@
+package mhds;
+
 import javax.swing.*;
 import java.awt.*;
 
-
+/**
+ * Main GUI for navigating between Admin and Customer Dashboards.
+ */
 public class MainGUI extends JFrame {
+    private JButton adminButton, customerButton;
 
     public MainGUI() {
-        setTitle("Welcome to the Maleny Dairy to Home Service (MHDS)");
+        super("Welcome to MHDS");
+        initializeComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
+        setSize(300, 200);
         setLocationRelativeTo(null);
+    }
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+    private void initializeComponents() {
+        setLayout(new FlowLayout());
+        adminButton = new JButton("Admin Dashboard");
+        adminButton.addActionListener(e -> openAdminDashboard());
+        add(adminButton);
 
-        JLabel headerLabel = new JLabel("Welcome to the Maleny Dairy to Home Service (MHDS)", JLabel.CENTER);
-        headerLabel.setOpaque(true);
-        headerLabel.setBackground(Color.LIGHT_GRAY);
-        headerLabel.setPreferredSize(new Dimension(550, 40));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        mainPanel.add(headerLabel, gbc);
+        customerButton = new JButton("Customer Dashboard");
+        customerButton.addActionListener(e -> openCustomerDashboard());
+        add(customerButton);
+    }
 
-        JButton btnRegister = new JButton("<html>Register<br>(RegistrationScreen.java)</html>");
-        JButton btnLogin = new JButton("<html>Login<br>(LoginScreen.java)</html>");
-        JButton btnAdminLogin = new JButton("<html>Admin Login<br>(AdminLogin.java)</html>");
+    private void openAdminDashboard() {
+        AdminDashboard adminDashboard = new AdminDashboard();
+        adminDashboard.setVisible(true);
+    }
 
-        btnRegister.setPreferredSize(new Dimension(250, 50));
-        btnLogin.setPreferredSize(new Dimension(250, 50));
-        btnAdminLogin.setPreferredSize(new Dimension(250, 50));
-
-        gbc.gridwidth = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        mainPanel.add(btnRegister, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        mainPanel.add(btnLogin, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        mainPanel.add(btnAdminLogin, gbc);
-
-        btnRegister.addActionListener(e -> new RegistrationScreen().setVisible(true));
-        btnLogin.addActionListener(e -> new LoginScreen().setVisible(true));
-        btnAdminLogin.addActionListener(e -> new LoginScreen().setVisible(true)); // Admin login is also handled by LoginScreen
-
-        add(mainPanel);
+    private void openCustomerDashboard() {
+        CustomerDashboard customerDashboard = new CustomerDashboard();
+        customerDashboard.setVisible(true);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            MainGUI mainGUI = new MainGUI();
-            mainGUI.setVisible(true);
+            MainGUI frame = new MainGUI();
+            frame.setVisible(true);
         });
     }
 }

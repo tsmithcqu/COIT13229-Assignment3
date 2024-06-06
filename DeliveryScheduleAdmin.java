@@ -1,159 +1,82 @@
+package mhds;
+
 import javax.swing.*;
 import java.awt.*;
-import java.sql.*;
+import java.util.List;
 
+/**
+ * A GUI class extending JFrame for viewing and adding delivery schedules.
+ */
 public class DeliveryScheduleAdmin extends JFrame {
+    private JTextField postcodeField, costField;
+    private JButton addButton, viewButton;
+    private Client client;
 
-    private JTextField txtPostcode;
-    private JTextField txtDeliveryDay;
-    private JTextField txtDeliveryCost;
-    private JTable scheduleTable;
-
+     /**
+     * Constructor initialises the GUI.
+     */
     public DeliveryScheduleAdmin() {
-        setTitle("Create Delivery Schedule");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 10, 10));
-        txtPostcode = new JTextField();
-        txtDeliveryDay = new JTextField();
-        txtDeliveryCost = new JTextField();
-
-        inputPanel.add(new JLabel("Postcode:"));
-        inputPanel.add(txtPostcode);
-        inputPanel.add(new JLabel("Delivery Day:"));
-        inputPanel.add(txtDeliveryDay);
-        inputPanel.add(new JLabel("Delivery Cost:"));
-        inputPanel.add(txtDeliveryCost);
-
-        JButton btnAdd = new JButton("Add Schedule");
-        JButton btnUpdate = new JButton("Update Schedule");
-        JButton btnDelete = new JButton("Delete Schedule");
-
-        btnAdd.addActionListener(e -> addSchedule());
-        btnUpdate.addActionListener(e -> updateSchedule());
-        btnDelete.addActionListener(e -> deleteSchedule());
-
-        inputPanel.add(btnAdd);
-        inputPanel.add(btnUpdate);
-        inputPanel.add(btnDelete);
-
-        panel.add(inputPanel, BorderLayout.NORTH);
-
-        scheduleTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(scheduleTable);
-        panel.add(scrollPane, BorderLayout.CENTER);
-
-        loadScheduleData(scheduleTable);
-
-        add(panel);
+        super("Delivery Schedule Management");
+        this.client = new Client(); // Create a new instance of Client for communication.
+        createForm(); // Initialise all GUI components.
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation to exit the application.
+        setSize(300, 200); // Adjust size.
+        setLocationRelativeTo(null); // Center the frame on the screen.
     }
 
-    private void loadScheduleData(JTable scheduleTable) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM delivery_schedules");
+    /**
+     * Method to set up the form with a button to view delivery schedules.
+     */
+    private void createForm() {
+        setLayout(new GridLayout(3, 2)); // Use GridLayout with 3 rows and 2 columns. 
 
-            String[] columnNames = {"Postcode", "Delivery Day", "Delivery Cost"};
-            Object[][] data = new Object[50][3];
-            int rowCount = 0;
+        // Adding postcode components. 
+        add(new JLabel("Postcode:")); // Label for postcode. 
+        postcodeField = new JTextField(20); // Text field for postcode. 
+        add(postcodeField);
 
-            while (resultSet.next()) {
-                data[rowCount][0] = resultSet.getString("postcode");
-                data[rowCount][1] = resultSet.getString("delivery_day");
-                data[rowCount][2] = resultSet.getDouble("delivery_cost");
-                rowCount++;
+        add(new JLabel("Cost:")); // Label for cost. 
+        costField = new JTextField(20); // Text field for cost. 
+        add(costField);
+
+        // Button to add schedule. 
+        addButton = new JButton("Add Schedule"); // Button to submit schedule information. 
+        addButton.addActionListener(e -> submitScheduleData()); // Set action listener to handle button click
+        add(addButton);
+
+        // Button to view schedules. 
+        viewButton = new JButton("View Schedules"); // Button to view schedule information. 
+        viewButton.addActionListener(e -> viewSchedules()); // Set action listener to handle button click
+        add(viewButton);
+    }
+
+    private void submitScheduleData() {
+        String postcode = postcodeField.getText();
+        double cost = Double.parseDouble(costField.getText());
+        DeliverySchedule schedule = new DeliverySchedule(postcode, cost); // Use the new constructor
+        client.sendScheduleData(schedule);
+    }
+
+    private void viewSchedules() {
+        List<DeliverySchedule> schedules = client.fetchAllSchedules();
+        if (schedules != null) {
+            StringBuilder sb = new StringBuilder();
+            for (DeliverySchedule schedule : schedules) {
+                sb.append(schedule).append("\n");
             }
-
-            scheduleTable.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
-            resultSet.close();
-            statement.close();
-            connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, sb.toString(), "Registered Schedules", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to fetch schedules", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void addSchedule() {
-        String postcode = txtPostcode.getText();
-        String deliveryDay = txtDeliveryDay.getText();
-        double deliveryCost = Double.parseDouble(txtDeliveryCost.getText());
-
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO delivery_schedules (postcode, delivery_day, delivery_cost) VALUES (?, ?, ?)");
-            ps.setString(1, postcode);
-            ps.setString(2, deliveryDay);
-            ps.setDouble(3, deliveryCost);
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
-
-            loadScheduleData(scheduleTable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateSchedule() {
-        int selectedRow = scheduleTable.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Select a schedule to update.");
-            return;
-        }
-
-        String postcode = (String) scheduleTable.getValueAt(selectedRow, 0);
-        String deliveryDay = txtDeliveryDay.getText();
-        double deliveryCost = Double.parseDouble(txtDeliveryCost.getText());
-
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            PreparedStatement ps = connection.prepareStatement("UPDATE delivery_schedules SET delivery_day = ?, delivery_cost = ? WHERE postcode = ?");
-            ps.setString(1, deliveryDay);
-            ps.setDouble(2, deliveryCost);
-            ps.setString(3, postcode);
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
-
-            loadScheduleData(scheduleTable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void deleteSchedule() {
-        int selectedRow = scheduleTable.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Select a schedule to delete.");
-            return;
-        }
-
-        String postcode = (String) scheduleTable.getValueAt(selectedRow, 0);
-
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM delivery_schedules WHERE postcode = ?");
-            ps.setString(1, postcode);
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
-
-            loadScheduleData(scheduleTable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Main method to run the GUI.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            DeliveryScheduleAdmin DeliveryScheduleAdmin = new DeliveryScheduleAdmin();
-            DeliveryScheduleAdmin.setVisible(true);
+            DeliveryScheduleAdmin frame = new DeliveryScheduleAdmin(); // Create an instance of the GUI frame.
+            frame.setVisible(true); // Make the frame visible.
         });
     }
 }

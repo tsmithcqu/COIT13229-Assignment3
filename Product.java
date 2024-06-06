@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * A class representing a product in the system.
  * Gen AI provided guidance on the usage of serialVersionUID to ensure class structure during serialiation and deserialisation. 
+ * No code was developed by Gen AI. 
  */
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L; // UID for serialising, ensures class structure consistency during deserialisation.
@@ -65,6 +66,21 @@ public class Product implements Serializable {
         return quantity;
     }
      public void setQuantity(int quantity) {
+    }
+
+     /**
+     * Overridden toString method for printing and logging of product data.
+     */
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", ingredients='" + ingredients + '\'' +
+                ", unit='" + unit + '\'' +
+                ", quantity=" + quantity +
+                '}';
     }
 
 }

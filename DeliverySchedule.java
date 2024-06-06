@@ -1,47 +1,58 @@
-package mdhs;
+package mhds;
 
-public class DeliverySchedule {
+import java.io.Serializable;
+
+/**
+ * The DeliverySchedule class models the data for a customer and is designed to be passed between client and server.
+ * Gen AI provided guidance on the usage of serialVersionUID to ensure class structure during serialiation and deserialisation. 
+ * Gen AI did not develop any code. 
+ */
+public class DeliverySchedule implements Serializable {
+    private static final long serialVersionUID = 1L; // UID for serialising, ensures class structure consistency during deserialisation.
+
+    /**
+     * Private fields to hold customer information.
+     */
+    private int scheduleID;
     private String postcode;
-    private String deliveryDay;
-    private double deliveryCost;
+    private double cost;
 
-    public DeliverySchedule(String postcode, String deliveryDay, double deliveryCost) {
+    /**
+     * Constructor to initialise a new delivery with an ID.
+     */
+    public DeliverySchedule(int scheduleID, String postcode, double cost) {
+        this.scheduleID = scheduleID;
         this.postcode = postcode;
-        this.deliveryDay = deliveryDay;
-        this.deliveryCost = deliveryCost;
+        this.cost = cost;
     }
 
-    // Getters and setters
+    /**
+     * Constructor to initialise a new delivery.
+     */
+    public DeliverySchedule(String postcode, double cost) {
+        this.postcode = postcode;
+        this.cost = cost;
+    }
+
+    public int getScheduleID() {
+        return scheduleID;
+    }
+
     public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public String getDeliveryDay() {
-        return deliveryDay;
-    }
-
-    public void setDeliveryDay(String deliveryDay) {
-        this.deliveryDay = deliveryDay;
-    }
-
-    public double getDeliveryCost() {
-        return deliveryCost;
-    }
-
-    public void setDeliveryCost(double deliveryCost) {
-        this.deliveryCost = deliveryCost;
+    public double getCost() {
+        return cost;
     }
 
     @Override
     public String toString() {
         return "DeliverySchedule{" +
-                "postcode='" + postcode + '\'' +
-                ", deliveryDay='" + deliveryDay + '\'' +
-                ", deliveryCost=" + deliveryCost +
+                "scheduleID=" + scheduleID +
+                ", postcode='" + postcode + '\'' +
+                ", cost=" + cost +
                 '}';
     }
+
 }

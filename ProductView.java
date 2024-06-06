@@ -1,62 +1,69 @@
+package mhds;
+
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
+/**
+ * A GUI class extending JFrame for viewing registered products.
+ */
 public class ProductView extends JFrame {
+    private JButton viewButton;
+    private Client client;
 
+    /**
+     * Constructor initialises the GUI.
+     */
     public ProductView() {
-        setTitle("Product View");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        JTable productTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(productTable);
-        panel.add(scrollPane, BorderLayout.CENTER);
-
-        loadProductData(productTable);
-
-        add(panel);
+        super("View Products"); // Set the title of the JFrame window
+        this.client = new Client(); // Create a new instance of Client for communication
+        initializeComponents(); // Call the method to set up the GUI components
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation to exit the application
+        setSize(400, 400); // Set the initial size of the frame
+        setLocationRelativeTo(null); // Center the frame on the screen
     }
 
-    private void loadProductData(JTable productTable) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhds", "root", "password");
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT name, unit, quantity, price, ingredients FROM products");
+    /**
+     * Method to set up the form with a button to view products.
+     */
+    private void initializeComponents() {
+        setLayout(new FlowLayout());  // Use FlowLayout for simple arrangement of components
 
-            String[] columnNames = {"Name", "Unit", "Quantity", "Price", "Ingredients"};
-            Object[][] data = new Object[50][5];
-            int rowCount = 0;
+        // Button to view the registered products
+        viewButton = new JButton("View Products");
+        viewButton.addActionListener(e -> viewProducts()); // Set action listener to handle button click
+        add(viewButton);
+    }
 
-            while (resultSet.next()) {
-                data[rowCount][0] = resultSet.getString("name");
-                data[rowCount][1] = resultSet.getString("unit");
-                data[rowCount][2] = resultSet.getInt("quantity");
-                data[rowCount][3] = resultSet.getDouble("price");
-                data[rowCount][4] = resultSet.getString("ingredients");
-                rowCount++;
+    /**
+     * Method to handle the button click event for viewing registered products.
+     */
+    private void viewProducts() {
+        // Fetch all products using the client
+        java.util.List<Product> products = client.fetchAllProducts();
+        if (products != null) {
+            // Display the fetched products in a message dialog
+            StringBuilder sb = new StringBuilder("Registered Products:\n");
+            for (Product product : products) {
+                sb.append("Name: ").append(product.getName())
+                  .append(", Price: ").append(product.getPrice())
+                  .append(", Ingredients: ").append(product.getIngredients())
+                  .append(", Unit: ").append(product.getUnit())
+                  .append(", Quantity: ").append(product.getQuantity())
+                  .append("\n");
             }
-
-            productTable.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
-            resultSet.close();
-            statement.close();
-            connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, sb.toString(), "Product List", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to fetch products", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Main method to run the GUI.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ProductView productView = new ProductView();
-            productView.setVisible(true);
+            ProductView frame = new ProductView(); // Create an instance of the GUI frame
+            frame.setVisible(true); // Make the frame visible
         });
     }
 }
