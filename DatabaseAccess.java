@@ -153,8 +153,19 @@ public class DatabaseAccess implements AutoCloseable {
      * Method to retrieve all schedules from the database.
      */
     public List<DeliverySchedule> getAllSchedules() throws SQLException {
-
-        // to do 
+        String sql = "SELECT * FROM schedules"; // SQL query to select all schedules from the Schedules table.
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            List<DeliverySchedule> schedules = new ArrayList<>(); // Create a list to store the retrieved schedules.
+            while (rs.next()) { // Iterate through the result set.
+                schedules.add(new DeliverySchedule(
+                        rs.getInt("scheduleID"),
+                        rs.getString("postcode"),
+                        rs.getDouble("cost")
+                ));
+            }
+            return schedules;
+        }
     }
 
     /**
