@@ -13,17 +13,17 @@ public class DeliverySchedule implements Serializable {
     /**
      * Private fields to hold customer information.
      */
-    private int scheduleID;
-    private String postcode;
-    private double cost;
+    private int scheduleID;     // Delivery Schedule ID. 
+    private String postcode;    // Delivery postcode. 
+    private double cost;        // Delivery cost. 
 
     /**
      * Constructor to initialise a new delivery with an ID.
      */
     public DeliverySchedule(int scheduleID, String postcode, double cost) {
-        this.scheduleID = scheduleID;
-        this.postcode = postcode;
-        this.cost = cost;
+        this.scheduleID = scheduleID;    // Initialise the scheduleID field.
+        this.postcode = postcode;        // Initialise the postcode field.
+        this.cost = cost;                // Initialise the cost field.
     }
 
     /**
@@ -35,17 +35,20 @@ public class DeliverySchedule implements Serializable {
     }
 
     public int getScheduleID() {
-        return scheduleID;
+        return scheduleID; // Return the schedule ID.
     }
 
     public String getPostcode() {
-        return postcode;
+        return postcode; // Return the post code. 
     }
 
     public double getCost() {
-        return cost;
+        return cost; // Return the cost. 
     }
 
+    /**
+     * Overridden toString method for printing and logging of delivery data.
+     */
     @Override
     public String toString() {
         return "DeliverySchedule{" +
