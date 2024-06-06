@@ -46,4 +46,13 @@ public class DeliverySchedule implements Serializable {
         return cost;
     }
 
+    @Override
+    public String toString() {
+        return "DeliverySchedule{" +
+                "scheduleID=" + scheduleID +
+                ", postcode='" + postcode + '\'' +
+                ", cost=" + cost +
+                '}';
+    }
+
 }
