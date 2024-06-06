@@ -17,7 +17,6 @@ public class Client {
 
     /**
      * Method to send customer data to the server. 
-     * More methods will need to be added for different functions of the program. 
      */
      public void sendCustomerData(Customer customer) {
           sendRequest("ADD_CUSTOMER", customer); // Send request to add a customer.
