@@ -12,41 +12,53 @@ public class DeliveryScheduleAdmin extends JFrame {
     private JButton addButton, viewButton;
     private Client client;
 
+     /**
+     * Constructor initialises the GUI.
+     */
     public DeliveryScheduleAdmin() {
         super("Delivery Schedule Management");
-        this.client = new Client();
-        createForm();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 200);
-        setLocationRelativeTo(null);
+        this.client = new Client(); // Create a new instance of Client for communication.
+        createForm(); // Initialise all GUI components.
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation to exit the application.
+        setSize(300, 200); // Adjust size.
+        setLocationRelativeTo(null); // Center the frame on the screen.
     }
 
+    /**
+     * Method to set up the form with a button to view delivery schedules.
+     */
     private void createForm() {
-        setLayout(new GridLayout(3, 2));
+        setLayout(new GridLayout(3, 2)); // Use GridLayout with 3 rows and 2 columns. 
 
-        add(new JLabel("Postcode:"));
-        postcodeField = new JTextField(20);
+        // Adding postcode components. 
+        add(new JLabel("Postcode:")); // Label for postcode. 
+        postcodeField = new JTextField(20); // Text field for postcode. 
         add(postcodeField);
 
-        add(new JLabel("Cost:"));
-        costField = new JTextField(20);
+        add(new JLabel("Cost:")); // Label for cost. 
+        costField = new JTextField(20); // Text field for cost. 
         add(costField);
 
-        addButton = new JButton("Add Schedule");
-        addButton.addActionListener(e -> submitScheduleData());
+        // Button to add schedule. 
+        addButton = new JButton("Add Schedule"); // Button to submit schedule information. 
+        addButton.addActionListener(e -> submitScheduleData()); // Set action listener to handle button click
         add(addButton);
 
-        viewButton = new JButton("View Schedules");
-        viewButton.addActionListener(e -> viewSchedules());
+        // Button to view schedules. 
+        viewButton = new JButton("View Schedules"); // Button to view schedule information. 
+        viewButton.addActionListener(e -> viewSchedules()); // Set action listener to handle button click
         add(viewButton);
     }
 
     // to do: logic 
-    
+
+    /**
+     * Main method to run the GUI.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            DeliveryScheduleAdmin frame = new DeliveryScheduleAdmin();
-            frame.setVisible(true);
+            DeliveryScheduleAdmin frame = new DeliveryScheduleAdmin(); // Create an instance of the GUI frame.
+            frame.setVisible(true); // Make the frame visible.
         });
     }
 }
