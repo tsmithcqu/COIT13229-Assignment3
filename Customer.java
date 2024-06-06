@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
 * The Customer class models the data for a customer and is designed to be passed between client and server.
+* Gen AI provided guidance on the usage of serialVersionUID to ensure class structure during serialiation and deserialisation. 
+* Gen AI did not develop any code. 
 */
 public class Customer implements Serializable {
     private static final long serialVersionUID = 1L; // UID for serialising, ensures class structure consistency during deserialisation.
