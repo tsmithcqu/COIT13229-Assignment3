@@ -35,7 +35,26 @@ public class DeliveryScheduleView extends JFrame {
         add(viewButton);
     }
 
-// implement the logic here. 
+    /**
+     * Method to handle the button click event for viewing registered delivery schedules.
+     */
+    private void viewSchedules() {
+        // Fetch all delivery schedules using the client
+        List<DeliverySchedule> schedules = client.fetchAllSchedules();
+        if (schedules != null) {
+            // Display the fetched delivery schedules in a message dialog
+            StringBuilder sb = new StringBuilder("Registered Delivery Schedules:\n");
+            for (DeliverySchedule schedule : schedules) {
+                sb.append("Schedule ID: ").append(schedule.getScheduleID())
+                  .append(", Postcode: ").append(schedule.getPostcode())
+                  .append(", Cost: ").append(schedule.getCost())
+                  .append("\n");
+            }
+            JOptionPane.showMessageDialog(this, sb.toString(), "Delivery Schedule List", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to fetch delivery schedules", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * Main method to run the GUI.
