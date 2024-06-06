@@ -7,34 +7,62 @@ import java.awt.*;
  * Customer dashboard providing access to registration and product viewing functionalities.
  */
 public class CustomerDashboard extends JFrame {
-    private JButton registrationButton, productViewButton;
+    // Declare buttons for different functionalities
+    private JButton registrationButton, productViewButton, viewSchedulesButton;
 
     public CustomerDashboard() {
-        super("Customer Dashboard");
-        initializeComponents();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(300, 200);
-        setLocationRelativeTo(null);
+        super("Customer Dashboard"); // Set the title of the JFrame.
+        initializeComponents(); // Call method to initialise GUI components.
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Set the default close operation to dispose the frame on close.
+        setSize(300, 200); // Set the size of the frame.
+        setLocationRelativeTo(null); // Center the frame on the screen.
     }
 
+    /**
+     * Method to initialise the GUI components.
+     */
     private void initializeComponents() {
-        setLayout(new FlowLayout());
-        registrationButton = new JButton("Register");
-        registrationButton.addActionListener(e -> openRegistrationScreen());
-        add(registrationButton);
+        setLayout(new FlowLayout()); // Set the layout manager to FlowLayout.
 
-        productViewButton = new JButton("View Products");
-        productViewButton.addActionListener(e -> openProductView());
-        add(productViewButton);
+        // Initialise and add registration button.
+        registrationButton = new JButton("Register");
+        registrationButton.addActionListener(e -> openRegistrationScreen()); // Add action listener to open registration screen.
+        add(registrationButton); // Add button to the frame.
+
+        // Initialise and add product view button.
+        productViewButton = new JButton("View Products"); 
+        productViewButton.addActionListener(e -> openProductView()); // Add action listener to open product view.
+        add(productViewButton); // Add button to the frame.
+
+        // Initialise and add view schedules button.
+        viewSchedulesButton = new JButton("View Delivery Schedules");
+        viewSchedulesButton.addActionListener(e -> openDeliveryScheduleView()); // Add action listener to open delivery schedule view
+        add(viewSchedulesButton); // Add button to the frame
     }
 
+    /**
+     * Method to open the registration screen
+     */
     private void openRegistrationScreen() {
         RegistrationScreen registrationScreen = new RegistrationScreen();
         registrationScreen.setVisible(true);
     }
 
+    /**
+     * Method to open the product view screen
+     */
     private void openProductView() {
         ProductView productView = new ProductView();
         productView.setVisible(true);
+    }
+
+     /**
+     * Method to open the delivery schedule view screen
+     */
+    private void openDeliveryScheduleView() {
+        SwingUtilities.invokeLater(() -> { // Ensure the GUI update happens on the Event Dispatch Thread
+            DeliveryScheduleView frame = new DeliveryScheduleView(); // Create an instance of DeliveryScheduleView
+            frame.setVisible(true); // Make the delivery schedule view screen visible
+        });
     }
 }
