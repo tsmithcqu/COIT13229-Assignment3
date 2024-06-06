@@ -68,6 +68,14 @@ private void handleClient(Socket clientSocket) {
             * Add the customer using the DatabaseAccess instance.
             */
             switch (action) {
+
+                case "LOGIN":// Case to handle login.
+                String[] credentials = (String[]) in.readObject(); // Read credentials from the client.
+                System.out.println("Received login request for: " + credentials[0]); // Log the received login request.
+                boolean loginSuccess = authenticateUser(credentials[0], credentials[1]); // Attempt to authenticate the user.
+                String loginResponse = loginSuccess ? "Login successful." : "Login failed."; // Prepare response based on the operation's success.
+                out.writeObject(loginResponse); // Send the response back to the client to be displayed by the GUI.
+                break;
                 case "ADD_CUSTOMER": // Case to handle adding a new customer.
                 Customer customer = (Customer) in.readObject(); // Read customer object from the client.
                 System.out.println("Received customer data: " + customer); // Log the received customer data.
