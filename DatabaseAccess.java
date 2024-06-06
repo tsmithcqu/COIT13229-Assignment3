@@ -109,54 +109,8 @@ public class DatabaseAccess implements AutoCloseable {
             return false; // Return false if there is an SQL error.
         }
     }
-    
-    // Add a schedule (admin function).
-    public boolean addAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
-        String sql = "INSERT INTO delivery_schedules (postcode, deliveryDay, deliveryCost) VALUES (?, ?, ?)"; // SQL statement to insert a new user into the Users table.
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            /*
-             * Set the values for the PreparedStatement from the DeliverySchedule object.
-             */
-            ps.setString(1, DeliverySchedule.getPostcode());
-            ps.setString(2, DeliverySchedule.getDeliveryDay());
-            ps.setDouble(3, DeliverySchedule.getDeliveryCost());
 
-            /*
-             * Execute the update and return true if the update affected at least one row.
-             */
-            int result = ps.executeUpdate();
-            return result > 0;
-        } catch (SQLException e) {
-            e.printStackTrace(); // Print stack trace if an SQLException occurs.
-            return false; // Return false if there is an SQL error.
-        }
-    }
-
-
-    // Update a schedule (admin function).
-    public boolean updateAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
-        String sql = "UPDATE delivery_schedules SET postcode = ?, delivery_cost = ? WHERE delivery_day = ? "; // SQL statement to insert a new user into the Users table.
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            /*
-             * Set the values for the PreparedStatement from the DeliverySchedule object.
-             */
-            ps.setString(1, DeliverySchedule.getPostcode());
-            ps.setString(2, DeliverySchedule.getDeliveryDay());
-            ps.setDouble(3, DeliverySchedule.getDeliveryCost());
-
-            /*
-             * Execute the update and return true if the update affected at least one row.
-             */
-            int result = ps.executeUpdate();
-            return result > 0;
-        } catch (SQLException e) {
-            e.printStackTrace(); // Print stack trace if an SQLException occurs.
-            return false; // Return false if there is an SQL error.
-        }
-    }
-
-
-    /**
+     /**
      * Method to retrieve all products from the database.
      */
     public List<Product> getAllProducts() throws SQLException {
@@ -182,6 +136,50 @@ public class DatabaseAccess implements AutoCloseable {
         }
     }
 
+    /**
+    Unused, future functionality here. 
+
+    
+    // Add a schedule (admin function).
+    public boolean addAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
+        String sql = "INSERT INTO delivery_schedules (postcode, deliveryDay, deliveryCost) VALUES (?, ?, ?)"; // SQL statement to insert a new user into the Users table.
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+             // Set the values for the PreparedStatement from the DeliverySchedule object.
+            ps.setString(1, DeliverySchedule.getPostcode());
+            ps.setString(2, DeliverySchedule.getDeliveryDay());
+            ps.setDouble(3, DeliverySchedule.getDeliveryCost());
+
+
+             // Execute the update and return true if the update affected at least one row.
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print stack trace if an SQLException occurs.
+            return false; // Return false if there is an SQL error.
+        }
+    }
+
+
+    // Update a schedule (admin function).
+    public boolean updateAdminSchedule(mdhs.DeliverySchedule DeliverySchedule) {
+        String sql = "UPDATE delivery_schedules SET postcode = ?, delivery_cost = ? WHERE delivery_day = ? "; // SQL statement to insert a new user into the Users table.
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+             // Set the values for the PreparedStatement from the DeliverySchedule object.
+            ps.setString(1, DeliverySchedule.getPostcode());
+            ps.setString(2, DeliverySchedule.getDeliveryDay());
+            ps.setDouble(3, DeliverySchedule.getDeliveryCost());
+
+
+             // Execute the update and return true if the update affected at least one row.
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace(); // Print stack trace if an SQLException occurs.
+            return false; // Return false if there is an SQL error.
+        }
+    }
 
     //METHODS TO GET DELIVERIES BY POSTCODE
     public List<mdhs.DeliverySchedule> getDetailsByPostcode() throws SQLException {
@@ -191,9 +189,8 @@ public class DatabaseAccess implements AutoCloseable {
 
             List<mdhs.Product> postcodes = new ArrayList<>(); // Create a list to store the retrieved postcodes.
             while (rs.next()) { // Iterate through the result set.
-                /*
-                 * Create a new delivery schedules object for each row in the result set and add it to the list.
-                 */
+                
+                 // Create a new delivery schedules object for each row in the result set and add it to the list.
                 postcodes.add(new mdhs.Product(
                         rs.getString("postcode"),
                         rs.ggetString("deliveryDay"),
@@ -212,9 +209,8 @@ public class DatabaseAccess implements AutoCloseable {
 
             List<mdhs.Product> postcodes = new ArrayList<>(); // Create a list to store the retrieved postcodes.
             while (rs.next()) { // Iterate through the result set.
-                /*
-                 * Create a new delivery schedules object for each row in the result set and add it to the list.
-                 */
+
+                 // Create a new delivery schedules object for each row in the result set and add it to the list.
                 postcodes.add(new mdhs.Product(
                         rs.getString("postcode"),
                         rs.ggetString("deliveryDay"),
@@ -229,15 +225,12 @@ public class DatabaseAccess implements AutoCloseable {
     public boolean addOrder(Order order) {
         String sql = "INSERT INTO orders" + "(product_id, quantity)" + "VALUES (?, ?)"; // SQL statement to insert a new order into the Orders table.
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            /*
-             * Set the values for the PreparedStatement from the order object.
-             */
+             
+             // Set the values for the PreparedStatement from the order object.
             ps.setString(1, order.getProductID());
             ps.setString(2, order.getQuantity());
 
-            /*
-             * Execute the update and return true if the update affected at least one row.
-             */
+             // Execute the update and return true if the update affected at least one row.
             int result = ps.executeUpdate();
             return result > 0;
         } catch (SQLException e) {
@@ -246,13 +239,11 @@ public class DatabaseAccess implements AutoCloseable {
         }
     }
 
+    */
 
-
-    /**
-
-    
     // Add more database unteractions here. Such as viewing etc. 
 
+    
     /**
      * Method to close the database connection.
      */
