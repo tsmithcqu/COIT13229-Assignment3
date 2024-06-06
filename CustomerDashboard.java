@@ -56,13 +56,22 @@ public class CustomerDashboard extends JFrame {
         productView.setVisible(true);
     }
 
-     /**
+    /**
      * Method to open the delivery schedule view screen
      */
     private void openDeliveryScheduleView() {
-        SwingUtilities.invokeLater(() -> { // Ensure the GUI update happens on the Event Dispatch Thread
-            DeliveryScheduleView frame = new DeliveryScheduleView(); // Create an instance of DeliveryScheduleView
-            frame.setVisible(true); // Make the delivery schedule view screen visible
+        DeliveryScheduleView deliveryScheduleView = new DeliveryScheduleView(); // Create an instance of DeliveryScheduleView
+        deliveryScheduleView.setVisible(true); // Make the delivery schedule view screen visible
+    }
+
+    /**
+     * Main method to run the GUI
+     */
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> { // Ensure the GUI creation happens on the Event Dispatch Thread
+            CustomerDashboard frame = new CustomerDashboard(); // Create an instance of CustomerDashboard
+            frame.setVisible(true); // Make the customer dashboard visible
         });
     }
+    
 }
