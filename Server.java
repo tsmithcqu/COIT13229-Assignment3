@@ -134,7 +134,7 @@ private void handleClient(Socket clientSocket) {
                     case "ADD_SCHEDULE":
                     DeliverySchedule schedule = (DeliverySchedule) in.readObject();
                     try (DatabaseAccess dbAccess = new DatabaseAccess()) {
-                        boolean success = dbAccess.addAdminSchedule(schedule);
+                        boolean success = dbAccess.addSchedule(schedule);
                         String response = success ? "Schedule processed successfully." : "Failed to process schedule.";
                         out.writeObject(response);
                     } catch (SQLException e) {
