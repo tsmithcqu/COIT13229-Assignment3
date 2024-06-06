@@ -81,9 +81,6 @@ public class DatabaseAccess implements AutoCloseable {
         }
     }
 
-    //ADMIN FUNCTIONS
-    //ADMIN UPDATED
-
     /**
      * Method to add a new product to the database.
      */
@@ -134,6 +131,22 @@ public class DatabaseAccess implements AutoCloseable {
             }
             return products; // Return the list of products.
         }
+    }
+
+     /**
+     * Method to add schedules to the database.
+     */
+    public boolean addSchedule(DeliverySchedule schedule) {
+
+        // to do
+    }
+
+     /**
+     * Method to retrieve all schedules from the database.
+     */
+    public List<DeliverySchedule> getAllSchedules() throws SQLException {
+
+        // to do 
     }
 
     /**
