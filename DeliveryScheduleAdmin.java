@@ -50,16 +50,36 @@ public class DeliveryScheduleAdmin extends JFrame {
         add(viewButton);
     }
 
+    /**
+     * Method to handle the button click event for submitting schedule data.
+     */
     private void submitScheduleData() {
+        /**
+         * Retrieve text from each text field.
+         */
         String postcode = postcodeField.getText();
         double cost = Double.parseDouble(costField.getText());
+
+        /**
+         * Create a new delivery object with the data from the form.
+         */
         DeliverySchedule schedule = new DeliverySchedule(postcode, cost); // Use the new constructor
+        
         client.sendScheduleData(schedule);
     }
 
+    /**
+     * Method to handle the button click event for viewing registered schedules.
+     */
     private void viewSchedules() {
+        /**
+         * Fetch all schedules using the client.
+         */
         List<DeliverySchedule> schedules = client.fetchAllSchedules();
         if (schedules != null) {
+            /**
+             * Display the fetched schedules in a message dialog.
+             */
             StringBuilder sb = new StringBuilder();
             for (DeliverySchedule schedule : schedules) {
                 sb.append(schedule).append("\n");
