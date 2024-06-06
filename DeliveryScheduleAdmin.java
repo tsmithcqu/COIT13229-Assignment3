@@ -50,7 +50,25 @@ public class DeliveryScheduleAdmin extends JFrame {
         add(viewButton);
     }
 
-    // to do: logic 
+    private void submitScheduleData() {
+        String postcode = postcodeField.getText();
+        double cost = Double.parseDouble(costField.getText());
+        DeliverySchedule schedule = new DeliverySchedule(postcode, cost); // Use the new constructor
+        client.sendScheduleData(schedule);
+    }
+
+    private void viewSchedules() {
+        List<DeliverySchedule> schedules = client.fetchAllSchedules();
+        if (schedules != null) {
+            StringBuilder sb = new StringBuilder();
+            for (DeliverySchedule schedule : schedules) {
+                sb.append(schedule).append("\n");
+            }
+            JOptionPane.showMessageDialog(this, sb.toString(), "Registered Schedules", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to fetch schedules", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * Main method to run the GUI.
