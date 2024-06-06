@@ -1,3 +1,7 @@
+/**
+ * 
+ * Code throwing errors. Commenting out. 
+
 package mhds;
 
 import javax.swing.*;
@@ -14,9 +18,7 @@ public class OrderScreen extends JFrame {
     private List<Product> products;
     private Order order;
 
-    /**
-     * Constructor initialises the GUI and fetches the product list.
-     */
+     // Constructor initialises the GUI and fetches the product list.
     public OrderScreen(Client client, Customer customer) {
         super("Place Order for MHDS"); // Set the title of the JFrame window.
         this.client = client;
@@ -28,9 +30,7 @@ public class OrderScreen extends JFrame {
         setLocationRelativeTo(null); // Center the frame on the screen.
     }
 
-    /**
-     * Method to set up the form with labels, text fields, and buttons.
-     */
+     // Method to set up the form with labels, text fields, and buttons.
     private void initializeComponents() {
         setLayout(new BorderLayout());  // Set the layout of the JFrame to BorderLayout.
 
@@ -61,9 +61,8 @@ public class OrderScreen extends JFrame {
         add(panel, BorderLayout.SOUTH);
     }
 
-    /**
-     * Method to fetch products from the server and populate the product list.
-     */
+
+     // Method to fetch products from the server and populate the product list.
     private void fetchProducts() {
         products = client.fetchAllProducts();
         if (products != null) {
@@ -76,9 +75,8 @@ public class OrderScreen extends JFrame {
         }
     }
 
-    /**
-     * Method to add a selected product to the order.
-     */
+
+     // Method to add a selected product to the order.
     private void addProductToOrder() {
         Product selectedProduct = productList.getSelectedValue();
         if (selectedProduct == null) {
@@ -100,9 +98,8 @@ public class OrderScreen extends JFrame {
         }
     }
 
-    /**
-     * Method to place the order by sending it to the server.
-     */
+    // Method to place the order by sending it to the server.
+
     private void placeOrder() {
         boolean success = client.sendOrder(order);
 
@@ -115,3 +112,4 @@ public class OrderScreen extends JFrame {
     }
 }
 
+*/
