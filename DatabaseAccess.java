@@ -137,8 +137,16 @@ public class DatabaseAccess implements AutoCloseable {
      * Method to add schedules to the database.
      */
     public boolean addSchedule(DeliverySchedule schedule) {
-
-        // to do
+        String sql = "INSERT INTO schedules (postcode, cost) VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, schedule.getPostcode());
+            ps.setDouble(2, schedule.getCost());
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
      /**
